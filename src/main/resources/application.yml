@@ -1,12 +1,24 @@
+server:
+  servlet:
+    encoding:
+      force-response: true
+  error:
+    include-message: always
+    include-binding-errors: always
+
 spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/MarketFuby?createDatabaseIfNotExist=true&characterEncoding=UTF-8&characterSetResults=UTF-8
+    username: root
+    password: 1234
   jpa:
     hibernate:
-      ddl-auto: validate
-    generate-ddl: false
-    show-sql: false
+      ddl-auto: update
+    generate-ddl: true
+    show-sql: true
   mvc:
-    hiddenmethod:
-      filter:
-        enabled: true
+    pathmatch:
+      matching-strategy: ant_path_matcher
   config:
     import: application-secret.yml
