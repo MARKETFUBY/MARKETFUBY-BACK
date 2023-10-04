@@ -1,7 +1,6 @@
 package MARKETFUBY.CartProduct.domain;
 
 import MARKETFUBY.Cart.domain.Cart;
-import MARKETFUBY.Order.domain.Order;
 import MARKETFUBY.Product.domain.Product;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
