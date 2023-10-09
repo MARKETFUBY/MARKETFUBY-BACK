@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-    @Table(name="cart")
-    @NoArgsConstructor
-    public class Cart {
+@Table(name="cart")
+@NoArgsConstructor
+public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cart_id", updatable = false)
@@ -22,7 +22,7 @@ import java.util.List;
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "cart")
     private List<CartProduct> cartList = new ArrayList<>();
 
     @Builder
