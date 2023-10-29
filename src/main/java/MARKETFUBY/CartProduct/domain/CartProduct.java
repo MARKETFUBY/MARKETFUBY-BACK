@@ -3,10 +3,12 @@ package MARKETFUBY.CartProduct.domain;
 import MARKETFUBY.Cart.domain.Cart;
 import MARKETFUBY.Product.domain.Product;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Getter
 @Entity
 @Table(name = "cartproduct")
 @NoArgsConstructor
