@@ -4,10 +4,12 @@ import MARKETFUBY.Global.entity.BaseTimeEntity;
 import MARKETFUBY.Member.domain.Member;
 import MARKETFUBY.Product.domain.Product;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Getter
 @Entity
 @Table(name = "inquiry")
 @NoArgsConstructor
@@ -35,7 +37,7 @@ public class Inquiry extends BaseTimeEntity {
     private Status status;
 
     @Column
-    private boolean isSecret;
+    private Boolean isSecret;
 
     @Builder
     public Inquiry(Member writer, Product product, String title, String content, Status status, boolean isSecret){

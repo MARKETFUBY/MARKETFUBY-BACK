@@ -34,7 +34,7 @@ public class Member {
     @Column
     private String level;
     @Column
-    private boolean selectAgreement;
+    private Boolean selectAgreement;
     @Column
     private UseAgreement useAgreement;
 
