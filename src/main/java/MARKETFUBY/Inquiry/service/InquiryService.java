@@ -46,4 +46,11 @@ public class InquiryService {
 			.orElseThrow(()->new IllegalArgumentException("존재하지 않는 제품입니다."));
 		Inquiry inquiry=inquiryRepository.save(inquiryRequestDto.toEntity(member, product));
 	}
+
+	public void update(Long inquiryId, InquiryRequestDto inquiryRequestDto){
+		Inquiry inquiry=inquiryRepository.findById(inquiryId)
+			.orElseThrow(()->new IllegalArgumentException("존재하지 않는 inquiryId입니다."));
+		inquiry.updateInquiry(inquiryRequestDto.getTitle(), inquiryRequestDto.getContent(), inquiryRequestDto.getIsSecret());
+		inquiryRepository.save(inquiry);
+	}
 }

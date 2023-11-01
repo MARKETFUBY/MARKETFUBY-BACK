@@ -48,4 +48,9 @@ public class Inquiry extends BaseTimeEntity {
         this.status = status;
         this.isSecret = isSecret;
     }
+    public void updateInquiry(String title, String content, Boolean isSecret){
+        this.title = title;
+        this.content = content;
+        this.isSecret = isSecret;
+    }
 }
