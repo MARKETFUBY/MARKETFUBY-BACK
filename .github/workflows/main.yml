@@ -73,9 +73,9 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
-        aws deploy create-deployment \
-        --application-name marketfuby \
-        --deployment-group-name marketfuby-group \
-        --file-exists-behavior OVERWRITE \
-        --s3-location bucket=marketfuby-deploy,bundleType=zip,key=marketfuby.zip \ 
+        aws deploy create-deployment
+        --application-name marketfuby
+        --deployment-group-name marketfuby-group
+        --file-exists-behavior OVERWRITE
+        --s3-location bucket=marketfuby-deploy,bundleType=zip,key=marketfuby.zip
         --region ap-northeast-2
