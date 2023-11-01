@@ -6,6 +6,7 @@ on:
 
 env:
   S3_BUCKET_NAME: marketfuby-deploy
+  APPLICATION: ${{ secrets.APPLICATION }}
 
 jobs:
   build:
@@ -20,6 +21,14 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
+
+    - uses: actions/checkout@v2
+    - run: touch ./src/main/resources/application.yml
+    - run: echo "${{env.APPLICATION}}" > ./src/main/resources/application.yml
+    - uses: actions/upload-artifact@v2
+      with:
+        name: application.yml
+        path: ./src/main/resources/application.yml
         
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
