@@ -35,4 +35,7 @@ public class CartProduct {
         this.cart = cart;
         this.count = count;
     }
+    public void updateCartProduct(Long count){
+        this.count=count;
+    }
 }

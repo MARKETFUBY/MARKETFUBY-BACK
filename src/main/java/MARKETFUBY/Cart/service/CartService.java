@@ -87,4 +87,24 @@ public class CartService {
 			.orElseThrow(()-> new IllegalArgumentException("제품이 존재하지 않습니다."));
 		cartProductRepository.save(postCartDto.toEntity(cart,product,postCartDto));
 	}
+
+	public void updateCart(PostCartDto postCartDto){
+		//현재 로그인 중인 사용자 불러오는 단계 필요
+		Long memberId=1L;
+		Member member=new Member();
+		member.setMemberId(1L);
+		//Cart tempcart=new Cart(member);
+		//cartRepository.save(tempcart);
+
+		Cart cart=cartRepository.findTopByMemberOrderByCartIdDesc(member)
+			.orElseThrow(()-> new IllegalArgumentException("장바구니가 존재하지 않습니다."));
+		//Long cartId=cart.getCartId();
+		Long productId= postCartDto.getProductId();;
+		Product product=productRepository.findById(productId)
+			.orElseThrow(()-> new IllegalArgumentException("제품이 존재하지 않습니다."));
+		CartProduct cartProduct=cartProductRepository.findByProductAndCart(product, cart)
+			.orElseThrow(()-> new IllegalArgumentException("장바구니 제품이 존재하지 않습니다."));
+		cartProduct.updateCartProduct(postCartDto.getCount());
+		cartProductRepository.save(cartProduct);
+	}
 }

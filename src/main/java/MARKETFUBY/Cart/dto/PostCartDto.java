@@ -2,7 +2,6 @@ package MARKETFUBY.Cart.dto;
 
 import MARKETFUBY.Cart.domain.Cart;
 import MARKETFUBY.CartProduct.domain.CartProduct;
-import MARKETFUBY.CartProduct.dto.PostCartProductDto;
 import MARKETFUBY.Product.domain.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
