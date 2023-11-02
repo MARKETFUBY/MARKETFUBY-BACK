@@ -31,4 +31,10 @@ public class Cart {
         this.member = member;
         this.cartList = cartList;
     }
+
+    @Builder
+    public Cart(Member member){
+        this.member=member;
+    }
+
 }

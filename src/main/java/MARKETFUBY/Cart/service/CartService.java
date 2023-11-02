@@ -8,10 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import MARKETFUBY.Cart.domain.Cart;
 import MARKETFUBY.Cart.dto.CartDto;
+import MARKETFUBY.Cart.dto.PostCartDto;
 import MARKETFUBY.Cart.repository.CartRepository;
 import MARKETFUBY.CartProduct.domain.CartProduct;
 import MARKETFUBY.CartProduct.repository.CartProductRepository;
 import MARKETFUBY.Member.domain.Member;
+import MARKETFUBY.Product.domain.Product;
 import MARKETFUBY.Product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -67,5 +69,22 @@ public class CartService {
 		cartDto.setPaymentAmount(paymentAmount);
 
 		return cartDto;
+	}
+
+	public void postCart(PostCartDto postCartDto){
+		//현재 로그인 중인 사용자 불러오는 단계 필요
+		Long memberId=1L;
+		Member member=new Member();
+		member.setMemberId(1L);
+		//Cart tempcart=new Cart(member);
+		//cartRepository.save(tempcart);
+
+		Cart cart=cartRepository.findTopByMemberOrderByCartIdDesc(member)
+			.orElseThrow(()-> new IllegalArgumentException("장바구니가 존재하지 않습니다."));
+		Long cartId=cart.getCartId();
+		Long productId= postCartDto.getProductId();;
+		Product product=productRepository.findById(productId)
+			.orElseThrow(()-> new IllegalArgumentException("제품이 존재하지 않습니다."));
+		cartProductRepository.save(postCartDto.toEntity(cart,product,postCartDto));
 	}
 }
