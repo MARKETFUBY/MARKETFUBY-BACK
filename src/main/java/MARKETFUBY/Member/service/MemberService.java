@@ -15,7 +15,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder encoder;
     public String join(String fubyId, String passwd, String name, String email, String phone, String home, String sex, String birthday, String level, boolean selectAgreement, String useAgreement) {
-        // userName 중복 체크
+        // fubyId 중복 체크
         if(existsByFubyId(fubyId)) throw new RuntimeException(fubyId + "은 이미 존재하는 아이디입니다!");
 
         // 중복되지 않는다면 저장
