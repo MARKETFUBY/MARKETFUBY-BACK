@@ -33,6 +33,6 @@ public class MemberController {
     @DeleteMapping("/logout")
     public String logout(@RequestBody RefreshTokenRequestDto requestDto) {
         refreshTokenService.deleteRefreshToken(requestDto.getRefreshToken());
-        return "성공적으로 로그아웃되었습니다!";
+        return "로그아웃되었습니다.";
     }
 }
