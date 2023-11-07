@@ -9,6 +9,7 @@ import MARKETFUBY.Member.repository.MemberRepository;
 import MARKETFUBY.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,9 +87,23 @@ public class MemberService {
                 .build();
     }
 
+    // 회원탈퇴
+    public String delete(Long memberId, Authentication authentication) {
+        Member member = findMemberById(memberId);
+        memberRepository.delete(member);
+        return "성공적으로 탈퇴되었습니다.";
+    }
+
     @Transactional(readOnly = true)
     public Member findMemberByFubyId(String fubyId) {
         return memberRepository.findByFubyId(fubyId)
                 .orElseThrow(() -> new EntityNotFoundException(fubyId + "은 존재하지 않는 아이디입니다."));
+    }
+
+    // memberId로 Member 정보 찾기
+    @Transactional(readOnly = true)
+    public Member findMemberById(Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("회원 ID가 " + id + "인 회원이 존재하지 않습니다."));
     }
 }

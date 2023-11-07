@@ -8,6 +8,7 @@ import MARKETFUBY.Member.service.MemberService;
 import MARKETFUBY.Member.service.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -34,5 +35,11 @@ public class MemberController {
     public String logout(@RequestBody RefreshTokenRequestDto requestDto) {
         refreshTokenService.deleteRefreshToken(requestDto.getRefreshToken());
         return "로그아웃되었습니다.";
+    }
+
+    // 회원탈퇴
+    @DeleteMapping("/{memberId}")
+    public ResponseEntity<String> delete(@PathVariable Long memberId, Authentication authentication) {
+        return ResponseEntity.ok().body(memberService.delete(memberId, authentication));
     }
 }
