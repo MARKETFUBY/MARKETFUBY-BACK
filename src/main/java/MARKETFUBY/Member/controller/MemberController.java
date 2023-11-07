@@ -42,4 +42,10 @@ public class MemberController {
     public ResponseEntity<String> delete(@PathVariable Long memberId, Authentication authentication) {
         return ResponseEntity.ok().body(memberService.delete(memberId, authentication));
     }
+
+    // RefreshToken을 이용해 새로운 AccessToken을 발급받기
+    @PostMapping("/refreshtoken")
+    public MemberLoginResponseDto requestRefresh (@RequestBody RefreshTokenRequestDto refreshTokenDto) {
+        return memberService.requestRefresh(refreshTokenDto.getRefreshToken());
+    }
 }

@@ -7,6 +7,7 @@ import MARKETFUBY.Member.domain.UseAgreement;
 import MARKETFUBY.Member.dto.MemberLoginResponseDto;
 import MARKETFUBY.Member.repository.MemberRepository;
 import MARKETFUBY.utils.JwtUtil;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -33,6 +34,8 @@ public class MemberService {
     private String accessKey;
     @Value("${spring.jwt.refresh-key}")
     private String refreshKey;
+
+    // 회원가입
     public String join(String fubyId, String passwd, String name, String email, String phone, String home, String sex, String birthday, String level, boolean selectAgreement, String useAgreement) {
         // fubyId 중복 체크
         if(existsByFubyId(fubyId)) throw new RuntimeException(fubyId + "은 이미 존재하는 아이디입니다!");
@@ -91,9 +94,10 @@ public class MemberService {
     public String delete(Long memberId, Authentication authentication) {
         Member member = findMemberById(memberId);
         memberRepository.delete(member);
-        return "성공적으로 탈퇴되었습니다.";
+        return "성공적으로 탈퇴되었습니다!";
     }
 
+    // fubyId로 회원 찾기
     @Transactional(readOnly = true)
     public Member findMemberByFubyId(String fubyId) {
         return memberRepository.findByFubyId(fubyId)
@@ -104,6 +108,29 @@ public class MemberService {
     @Transactional(readOnly = true)
     public Member findMemberById(Long id) {
         return memberRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("회원 ID가 " + id + "인 회원이 존재하지 않습니다."));
+                .orElseThrow(() -> new EntityNotFoundException("Member ID가 " + id + "인 회원이 존재하지 않습니다."));
+    }
+
+    // 새로운 AccessToken 발급받기
+    public MemberLoginResponseDto requestRefresh(String refreshToken) {
+        // 해당 RefreshToken이 유효한지 DB에서 탐색
+        RefreshToken foundRefreshToken = refreshTokenService.findRefreshToken(refreshToken);
+        // RefreshToken에 들어있는 username 값 가져오기
+        Claims claims = JwtUtil.parseRefreshToken(foundRefreshToken.getValue(), refreshKey);
+        String fubyId = claims.get("username").toString();
+        System.out.println("Username found in RefreshToken: " + fubyId);
+        // 가져온 fubyId에 해당하는 회원이 존재하는지 확인
+        Member member = findMemberByFubyId(fubyId);
+
+        // 새 AccessKey 생성
+        String accessToken = JwtUtil.createAccessToken(member.getFubyId(), accessKey, AccessExpireTimeMs);
+        // 새 AccessKey와 기존 RefreshKey를 DTO에 담아 리턴
+        return MemberLoginResponseDto
+                .builder()
+                .memberId(member.getMemberId())
+                .fubyId(member.getFubyId())
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
     }
 }
