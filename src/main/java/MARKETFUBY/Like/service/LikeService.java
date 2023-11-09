@@ -41,6 +41,15 @@ public class LikeService {
         likeRepository.save(like);
     }
 
+    public void delete(Long productId, Long memberId){
+        Product product = productService.findProductById(productId);
+        Member member = memberService.findMemberById(memberId);
+
+        Like like = likeRepository.findByMemberAndProduct(member, product)
+                .orElseThrow(() -> new RuntimeException("찜하기가 존재하지 않습니다."));
+        likeRepository.delete(like);
+    }
+
     @Transactional(readOnly = true)
     public boolean isExistsByMemberAndProduct(Member member, Product product){
         return likeRepository.existsByMemberAndProduct(member, product);
