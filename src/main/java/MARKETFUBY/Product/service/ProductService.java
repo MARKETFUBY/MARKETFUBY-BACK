@@ -16,15 +16,15 @@ import lombok.RequiredArgsConstructor;
 public class ProductService {
 	private final ProductRepository productRepository;
 
-	public List<ProductDto> getProductList(String sort, Pageable pageable){
+	public List<ProductDto> getProductList(Integer sort, Pageable pageable){
 		List<Product> productList= new ArrayList<>();
-		if(sort.equals("asc")){
-			productList=productRepository.findAllByOrderByPriceAsc(pageable);
-		} else if (sort.equals("desc")) {
+		if(sort==5) {//낮은가격순
+			productList=productRepository.findAllByOrderByPriceAsc();
+		} else if (sort==4) {//놓은가격순
 			productList=productRepository.findAllByOrderByPriceDesc();
-		} else if(sort.equals("dis")){
+		} else if(sort==3){//혜택순
 			productList=productRepository.findAllByOrderByDiscountDesc();
-		} else{
+		} else{//추천순
 			productList=productRepository.findAll();
 		}
 		List<ProductDto> productDtoList=new ArrayList<>();
@@ -32,6 +32,19 @@ public class ProductService {
 			ProductDto productDto=new ProductDto(product);
 			productDtoList.add(productDto);
 		}
+		return productDtoList;
+
+	}
+
+	public List<ProductDto> getSearchList(String sword){
+		List<Product> productList = productRepository.findAllByTitleContaining(sword);
+		List<ProductDto> productDtoList = new ArrayList<>();
+
+		for (Product product : productList) {
+			ProductDto productDto = new ProductDto(product);
+			productDtoList.add(productDto);
+		}
+
 		return productDtoList;
 
 	}

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class ProductDto {
+	private Long productId;
 	private String image;
 	private String delivery;
 	private String brand;
@@ -17,6 +18,7 @@ public class ProductDto {
 	private Long discount;
 
 	public ProductDto(Product product){
+		this.productId=product.getProductId();
 		this.image=product.getImage();
 		this.delivery=product.getDelivery();
 		this.brand=product.getBrand();
