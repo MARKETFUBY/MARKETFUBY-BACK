@@ -11,6 +11,8 @@ public class ProductDto {
 	private Long productId;
 	private String image;
 	private String delivery;
+
+	private Long bigcategoryId;
 	private String brand;
 	private String title;
 	private String subtitle;
@@ -21,6 +23,7 @@ public class ProductDto {
 		this.productId=product.getProductId();
 		this.image=product.getImage();
 		this.delivery=product.getDelivery();
+		this.bigcategoryId=product.getBigCategory().getBigcategoryId();
 		this.brand=product.getBrand();
 		this.title=product.getTitle();
 		this.subtitle=product.getSubtitle();
