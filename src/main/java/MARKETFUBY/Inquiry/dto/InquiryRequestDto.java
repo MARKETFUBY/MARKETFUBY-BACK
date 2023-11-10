@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access= AccessLevel.PROTECTED)
 public class InquiryRequestDto {
 	private Long productId;
-
 	private String title;
 	private String content;
 	private Boolean isSecret;
