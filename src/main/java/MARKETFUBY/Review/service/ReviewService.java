@@ -1,15 +1,18 @@
 package MARKETFUBY.Review.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import MARKETFUBY.Inquiry.domain.Inquiry;
-import MARKETFUBY.Inquiry.dto.InquiryRequestDto;
+import MARKETFUBY.Inquiry.dto.InquiryDto;
 import MARKETFUBY.Member.domain.Member;
 import MARKETFUBY.Product.domain.Product;
 import MARKETFUBY.Product.repository.ProductRepository;
 import MARKETFUBY.Review.domain.Review;
+import MARKETFUBY.Review.dto.ReviewDto;
+import MARKETFUBY.Review.dto.ReviewResponseDto;
 import MARKETFUBY.Review.dto.ReviewRequestDto;
 import MARKETFUBY.Review.repository.ReviewRepository;
 import MARKETFUBY.ReviewImage.domain.ReviewImage;
@@ -23,6 +26,26 @@ public class ReviewService {
 	private final ProductRepository productRepository;
 	private final ReviewRepository reviewRepository;
 	private final ReviewImageRepository reviewImageRepository;
+
+	public ReviewResponseDto getReviewList(){
+		ReviewResponseDto reviewResponseDto=new ReviewResponseDto();
+		//현재 로그인 중인 사용자 불러오는 단계 필요
+		Long memberId=1L;
+		Member member=new Member();
+		member.setMemberId(1L);
+
+		reviewResponseDto.setName(member.getName());
+		reviewResponseDto.setLevel(member.getLevel());
+
+		List<Review> reviewList=reviewRepository.findAllByWriter(member);
+		List<ReviewDto> reviewDtoList=new ArrayList<>();
+		for(Review review:reviewList){
+			reviewDtoList.add(new ReviewDto(review));
+		}
+		reviewResponseDto.setTotal(reviewDtoList.size());
+		reviewResponseDto.setProductList(reviewDtoList);
+		return reviewResponseDto;
+	}
 
 	public void create(ReviewRequestDto reviewRequestDto){
 		//현재 로그인 중인 사용자 불러오는 단계 필요
