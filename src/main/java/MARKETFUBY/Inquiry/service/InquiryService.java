@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import MARKETFUBY.Inquiry.domain.Inquiry;
 import MARKETFUBY.Inquiry.dto.InquiryDto;
 import MARKETFUBY.Inquiry.dto.InquiryRequestDto;
+import MARKETFUBY.Inquiry.dto.InquiryResponseDto;
 import MARKETFUBY.Inquiry.repository.InquiryRepository;
 import MARKETFUBY.Member.domain.Member;
 import MARKETFUBY.Product.domain.Product;
@@ -22,17 +23,25 @@ public class InquiryService {
 	private final ProductRepository productRepository;
 
 	@Transactional(readOnly = true)
-	public List<InquiryDto> getInquiryInfo(){
+	public InquiryResponseDto getInquiryInfo(){
+		InquiryResponseDto inquiryResponseDto= new InquiryResponseDto();
+
 		//현재 로그인 중인 사용자 불러오는 단계 필요
 		Long memberId=1L;
 		Member member=new Member();
 		member.setMemberId(1L);
+
+		inquiryResponseDto.setName(member.getName());
+		inquiryResponseDto.setLevel(member.getLevel());
+
 		List<Inquiry> inquiryList=inquiryRepository.findAllByWriter(member);
 		List<InquiryDto> inquiryDtoList=new ArrayList<>();
 		for(Inquiry inquiry:inquiryList){
 			inquiryDtoList.add(new InquiryDto(inquiry));
 		}
-		return inquiryDtoList;
+
+		inquiryResponseDto.setInquiryList(inquiryDtoList);
+		return inquiryResponseDto;
 
 	}
 

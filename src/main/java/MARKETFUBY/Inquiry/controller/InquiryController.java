@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import MARKETFUBY.Inquiry.dto.InquiryDto;
 import MARKETFUBY.Inquiry.dto.InquiryRequestDto;
+import MARKETFUBY.Inquiry.dto.InquiryResponseDto;
 import MARKETFUBY.Inquiry.service.InquiryService;
 import lombok.RequiredArgsConstructor;
 
@@ -28,7 +29,7 @@ public class InquiryController {
 
 	@GetMapping
 	@ResponseStatus(value = HttpStatus.OK)
-	public List<InquiryDto> getInquiryInfo(){
+	public InquiryResponseDto getInquiryInfo(){
 		return inquiryService.getInquiryInfo();
 	}
 
