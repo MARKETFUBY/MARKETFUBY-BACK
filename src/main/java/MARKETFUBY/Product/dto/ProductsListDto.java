@@ -10,8 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class NewProductsDto {
-	private String eventUrl;
+public class ProductsListDto {
 	private List<ProductDto> productList;
 	private List<CategoryDto> categoryList;
 	private Integer total;

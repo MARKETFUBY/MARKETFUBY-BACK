@@ -11,7 +11,6 @@ public class ProductDto {
 	private Long productId;
 	private String image;
 	private String delivery;
-
 	private Long bigcategoryId;
 	private String brand;
 	private String title;
