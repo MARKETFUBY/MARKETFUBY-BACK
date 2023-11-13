@@ -30,7 +30,14 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	List<Product> findTop12BySmallCategoryOrderByDiscountDesc(SmallCategory smallCategory);
 
 	//검색
-	List<Product> findAllByTitleContaining(String sword);
+	List<Product> findTop12ByTitleContaining(String sword);
+	List<Product> findTop12ByTitleContainingOrderByPriceAsc(String sword);
+	List<Product> findTop12ByTitleContainingOrderByPriceDesc(String sword);
+	List<Product> findTop12ByTitleContainingOrderByDiscountDesc(String sword);
+	List<Product> findTop12ByTitleContainingAndBigCategory(String sword, BigCategory bigCategory);
+	List<Product> findTop12ByTitleContainingAndBigCategoryOrderByPriceAsc(String sword, BigCategory bigCategory);
+	List<Product> findTop12ByTitleContainingAndBigCategoryOrderByPriceDesc(String sword, BigCategory bigCategory);
+	List<Product> findTop12ByTitleContainingAndBigCategoryOrderByDiscountDesc(String sword, BigCategory bigCategory);
 
 	//신상품,베스트,알뜰쇼핑
 	List<Product> findTop12ByEvent(Event event);
@@ -44,4 +51,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
 	Boolean existsByBigCategory(BigCategory bigCategory);
 	Integer countByBigCategoryAndEvent(BigCategory bigCategory, Event event);
+	Integer countByTitleContainingAndBigCategory(String sword, BigCategory bigCategory);
 }

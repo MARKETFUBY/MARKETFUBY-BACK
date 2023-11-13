@@ -9,6 +9,5 @@ import lombok.Setter;
 @Setter
 public class SearchDto {
 	private String sword;
-	private Integer count;
-	private List<ProductDto> productList;
+	private ProductsListDto productInfo;
 }

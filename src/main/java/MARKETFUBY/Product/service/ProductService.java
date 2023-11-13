@@ -29,7 +29,7 @@ public class ProductService {
 		List<Product> productList= new ArrayList<>();
 		if(sort==5) {//낮은가격순
 			productList=productRepository.findAllByOrderByPriceAsc();
-		} else if (sort==4) {//놓은가격순
+		} else if (sort==4) {//높은가격순
 			productList=productRepository.findAllByOrderByPriceDesc();
 		} else if(sort==3){//혜택순
 			productList=productRepository.findAllByOrderByDiscountDesc();
@@ -50,7 +50,7 @@ public class ProductService {
 		List<Product> productList= new ArrayList<>();
 		if(sort==5) {//낮은가격순
 			productList=productRepository.findAllByOrderByPriceAsc();
-		} else if (sort==4) {//놓은가격순
+		} else if (sort==4) {//높은가격순
 			productList=productRepository.findAllByOrderByPriceDesc();
 		} else if(sort==3){//혜택순
 			productList=productRepository.findAllByOrderByDiscountDesc();
@@ -78,7 +78,7 @@ public class ProductService {
 		if(filters==0L){
 			if(sort==5) {//낮은가격순
 				productList=productRepository.findTop12ByEventOrderByPriceAsc(event);
-			} else if (sort==4) {//놓은가격순
+			} else if (sort==4) {//높은가격순
 				productList=productRepository.findTop12ByEventOrderByPriceDesc(event);
 			} else if(sort==3){//혜택순
 				productList=productRepository.findTop12ByEventOrderByDiscountDesc(event);
@@ -90,7 +90,7 @@ public class ProductService {
 			BigCategory bigCategory=categoryRepository.findById(filters).orElseThrow(()->new IllegalArgumentException("존재하지 않는 대카테고리입니다."));
 			if(sort==5) {//낮은가격순
 				productList=productRepository.findTop12ByEventAndBigCategoryOrderByPriceAsc(event, bigCategory);
-			} else if (sort==4) {//놓은가격순
+			} else if (sort==4) {//높은가격순
 				productList=productRepository.findTop12ByEventAndBigCategoryOrderByPriceDesc(event, bigCategory);
 			} else if(sort==3){//혜택순
 				productList=productRepository.findTop12ByEventAndBigCategoryOrderByDiscountDesc(event, bigCategory);
@@ -126,18 +126,61 @@ public class ProductService {
 
 	}
 
-	public SearchDto getSearchList(String sword){
+	public SearchDto getSearchList(String sword, Integer sort, Long filters){
 		SearchDto searchDto = new SearchDto();
 		searchDto.setSword(sword);
-		List<Product> productList = productRepository.findAllByTitleContaining(sword);
-		List<ProductDto> productDtoList = new ArrayList<>();
 
-		for (Product product : productList) {
-			ProductDto productDto = new ProductDto(product);
+		ProductsListDto newProductsDto=new ProductsListDto();
+		List<Product> productList= new ArrayList<>();
+
+		//filters 선택 안한 경우
+		if(filters==0L){
+			if(sort==5) {//낮은가격순
+				productList=productRepository.findTop12ByTitleContainingOrderByPriceAsc(sword);
+			} else if (sort==4) {//높은가격순
+				productList=productRepository.findTop12ByTitleContainingOrderByPriceDesc(sword);
+			} else if(sort==3){//혜택순
+				productList=productRepository.findTop12ByTitleContainingOrderByDiscountDesc(sword);
+			} else{//나머지
+				productList=productRepository.findTop12ByTitleContaining(sword);
+			}
+		}
+		else{ //filters 선택한 경우
+			BigCategory bigCategory=categoryRepository.findById(filters).orElseThrow(()->new IllegalArgumentException("존재하지 않는 대카테고리입니다."));
+			if(sort==5) {//낮은가격순
+				productList=productRepository.findTop12ByTitleContainingAndBigCategoryOrderByPriceAsc(sword, bigCategory);
+			} else if (sort==4) {//높은가격순
+				productList=productRepository.findTop12ByTitleContainingAndBigCategoryOrderByPriceDesc(sword, bigCategory);
+			} else if(sort==3){//혜택순
+				productList=productRepository.findTop12ByTitleContainingAndBigCategoryOrderByDiscountDesc(sword, bigCategory);
+			} else{//나머지
+				productList=productRepository.findTop12ByTitleContainingAndBigCategory(sword, bigCategory);
+			}
+		}
+
+		List<ProductDto> productDtoList=new ArrayList<>();
+		for(Product product:productList){
+			ProductDto productDto=new ProductDto(product);
 			productDtoList.add(productDto);
 		}
-		searchDto.setCount(productList.size());
-		searchDto.setProductList(productDtoList);
+
+		newProductsDto.setProductList(productDtoList);
+		List<CategoryDto> categoryList=new ArrayList<>();
+		List<BigCategory> bigCategoryList=categoryRepository.findAll();
+		for(BigCategory category:bigCategoryList){
+			if(productRepository.existsByBigCategory(category)){
+				int count= productRepository.countByTitleContainingAndBigCategory(sword, category);
+				CategoryDto categoryDto=new CategoryDto();
+				categoryDto.setCount(count);
+				categoryDto.setName(category.getName());
+				categoryList.add(categoryDto);
+			}
+		}
+		newProductsDto.setCategoryList(categoryList);
+		newProductsDto.setTotal(productDtoList.size());
+
+		//searchDto.setCount(productList.size());
+		searchDto.setProductInfo(newProductsDto);
 
 		return searchDto;
 

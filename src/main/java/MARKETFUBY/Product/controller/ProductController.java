@@ -67,8 +67,13 @@ public class ProductController {
 
 	@GetMapping(value = "/search")
 	@ResponseStatus(value=HttpStatus.OK)
-	public SearchDto getSearchList(@RequestParam(required = false) String sword){
-		return productService.getSearchList(sword);
-
+	public SearchDto getSearchList(@RequestParam String sword,@RequestParam(required = false) Integer sort, @RequestParam(required = false) Long filters){
+		if (sort == null) {
+			sort = 0;
+		}
+		if (filters == null){
+			filters = 0L;
+		}
+		return productService.getSearchList(sword, sort, filters);
 	}
 }
