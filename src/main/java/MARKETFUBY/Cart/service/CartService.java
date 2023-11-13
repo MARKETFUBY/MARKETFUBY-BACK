@@ -13,6 +13,7 @@ import MARKETFUBY.Cart.repository.CartRepository;
 import MARKETFUBY.CartProduct.domain.CartProduct;
 import MARKETFUBY.CartProduct.repository.CartProductRepository;
 import MARKETFUBY.Member.domain.Member;
+import MARKETFUBY.Member.repository.MemberRepository;
 import MARKETFUBY.Product.domain.Product;
 import MARKETFUBY.Product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,13 +25,13 @@ public class CartService {
 	private final CartRepository cartRepository;
 	private final CartProductRepository cartProductRepository;
 	private final ProductRepository productRepository;
+	private final MemberRepository memberRepository;
 
 	@Transactional(readOnly=true)
 	public CartDto getCartInfo(){
 		//현재 로그인 중인 사용자 불러오는 단계 필요
 		Long memberId=1L;
-		Member member=new Member();
-		member.setMemberId(1L);
+		Member member=memberRepository.findById(memberId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 회원입니다."));
 		//findBymemberId중에 cartId가장 큰 애? 즉 제일 최신
 		Cart cart=cartRepository.findTopByMemberOrderByCartIdDesc(member).orElseThrow(()->new IllegalArgumentException("해당 id에 해당하는 member가 없습니다. id="+memberId));
 		Long cartId=cart.getCartId();
@@ -72,8 +73,7 @@ public class CartService {
 	public void postCart(PostCartDto postCartDto){
 		//현재 로그인 중인 사용자 불러오는 단계 필요
 		Long memberId=1L;
-		Member member=new Member();
-		member.setMemberId(1L);
+		Member member=memberRepository.findById(memberId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 회원입니다."));
 		//Cart tempcart=new Cart(member);
 		//cartRepository.save(tempcart);
 
@@ -89,7 +89,7 @@ public class CartService {
 	public void updateCart(PostCartDto postCartDto){
 		//현재 로그인 중인 사용자 불러오는 단계 필요
 		Long memberId=1L;
-		Member member=new Member();
+		Member member=memberRepository.findById(memberId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 회원입니다."));
 		member.setMemberId(1L);
 		//Cart tempcart=new Cart(member);
 		//cartRepository.save(tempcart);
