@@ -76,7 +76,6 @@ public class CartDto {
 	private List<SingleProduct> roomTempList;
 	private List<SingleProduct> refrigeList;
 	private List<SingleProduct> frozenList;
-	private String address;
 	private Integer totalAmount;
 	private Integer discountAmount;
 	private Integer paymentAmount;

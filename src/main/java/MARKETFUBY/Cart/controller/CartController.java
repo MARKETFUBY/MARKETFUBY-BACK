@@ -25,9 +25,7 @@ public class CartController {
 	@GetMapping
 	@ResponseStatus(value = HttpStatus.OK)
 	public CartDto getCartInfo(){
-		//System.out.println("hi");
 		return cartService.getCartInfo();
-		//return "HEllo";
 	}
 
 	@PostMapping

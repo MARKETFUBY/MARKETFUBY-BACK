@@ -62,8 +62,6 @@ public class CartService {
 		cartDto.setRefrigeList(refrigeList);
 		cartDto.setRoomTempList(roomTempList);
 		//totalprice, discount, paymenttotal계산해서 dto에 넣어주기
-		//배송지 받아오기 일단 임의
-		cartDto.setAddress("경기 안산시 상록구");
 		cartDto.setTotalAmount(totalAmount);
 		cartDto.setDiscountAmount(discountAmount);
 		cartDto.setPaymentAmount(paymentAmount);
