@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import MARKETFUBY.Product.dto.MainDto;
 import MARKETFUBY.Product.dto.ProductsListDto;
 import MARKETFUBY.Product.dto.ProductDto;
 import MARKETFUBY.Product.dto.SearchDto;
@@ -20,13 +21,10 @@ import lombok.RequiredArgsConstructor;
 public class ProductController {
 	private final ProductService productService;
 
-	@GetMapping(value = "/collections")
+	@GetMapping(value = "/main")
 	@ResponseStatus(value = HttpStatus.OK)
-	public List<ProductDto> getProductList(@RequestParam(required = false) Integer sort, Pageable pageable) {
-		if (sort == null) {
-			sort = 0;
-		}
-		return productService.getProductList(sort, pageable);
+	public MainDto getMainList() {
+		return productService.getMainList();
 	}
 
 	@GetMapping(value = "/collections/market-newproduct")

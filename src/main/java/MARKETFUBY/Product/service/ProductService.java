@@ -12,6 +12,7 @@ import MARKETFUBY.BigCategory.repository.CategoryRepository;
 import MARKETFUBY.Event.domain.Event;
 import MARKETFUBY.Event.repository.EventRepository;
 import MARKETFUBY.Product.domain.Product;
+import MARKETFUBY.Product.dto.MainDto;
 import MARKETFUBY.Product.dto.ProductsListDto;
 import MARKETFUBY.Product.dto.ProductDto;
 import MARKETFUBY.Product.dto.SearchDto;
@@ -25,23 +26,23 @@ public class ProductService {
 	private final EventRepository eventRepository;
 	private final CategoryRepository categoryRepository;
 
-	public List<ProductDto> getProductList(Integer sort, Pageable pageable){
+	public MainDto getMainList(){
+		MainDto mainDto=new MainDto();
 		List<Product> productList= new ArrayList<>();
-		if(sort==5) {//낮은가격순
-			productList=productRepository.findAllByOrderByPriceAsc();
-		} else if (sort==4) {//높은가격순
-			productList=productRepository.findAllByOrderByPriceDesc();
-		} else if(sort==3){//혜택순
-			productList=productRepository.findAllByOrderByDiscountDesc();
-		} else{//추천순
-			productList=productRepository.findAll();
-		}
+		Event event=eventRepository.findById(4L).orElseThrow(()->new IllegalArgumentException("존재하지 않는 이벤트입니다."));
+		productList=productRepository.findTop12ByEvent(event);
+
 		List<ProductDto> productDtoList=new ArrayList<>();
 		for(Product product:productList){
 			ProductDto productDto=new ProductDto(product);
 			productDtoList.add(productDto);
 		}
-		return productDtoList;
+		
+		//임시 테스트용
+		mainDto.setEvent1(productDtoList);
+		mainDto.setEvent2(productDtoList);
+		mainDto.setEvent3(productDtoList);
+		return mainDto;
 
 	}
 
