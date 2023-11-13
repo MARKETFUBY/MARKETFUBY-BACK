@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import MARKETFUBY.Inquiry.domain.Inquiry;
 import MARKETFUBY.Inquiry.dto.InquiryDto;
 import MARKETFUBY.Member.domain.Member;
+import MARKETFUBY.Member.repository.MemberRepository;
 import MARKETFUBY.Product.domain.Product;
 import MARKETFUBY.Product.repository.ProductRepository;
 import MARKETFUBY.Review.domain.Review;
@@ -26,13 +27,13 @@ public class ReviewService {
 	private final ProductRepository productRepository;
 	private final ReviewRepository reviewRepository;
 	private final ReviewImageRepository reviewImageRepository;
+	private final MemberRepository memberRepository;
 
 	public ReviewResponseDto getReviewList(){
 		ReviewResponseDto reviewResponseDto=new ReviewResponseDto();
 		//현재 로그인 중인 사용자 불러오는 단계 필요
 		Long memberId=1L;
-		Member member=new Member();
-		member.setMemberId(1L);
+		Member member=memberRepository.findById(memberId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 회원입니다."));
 
 		reviewResponseDto.setName(member.getName());
 		reviewResponseDto.setLevel(member.getLevel());

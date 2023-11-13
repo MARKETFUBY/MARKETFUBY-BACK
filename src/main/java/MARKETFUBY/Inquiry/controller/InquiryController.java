@@ -21,7 +21,7 @@ import MARKETFUBY.Inquiry.service.InquiryService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/inquiry")
+@RequestMapping("/mypage/inquiry")
 @RequiredArgsConstructor
 public class InquiryController {
 
