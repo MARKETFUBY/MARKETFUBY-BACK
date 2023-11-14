@@ -138,11 +138,13 @@ public class ProductService {
 				CategoryDto categoryDto=new CategoryDto();
 				categoryDto.setCount(count);
 				categoryDto.setName(category.getName());
+				categoryDto.setBigCategoryId(category.getBigcategoryId());
 				categoryList.add(categoryDto);
 			}
 		}
 		newProductsDto.setCategoryList(categoryList);
 		newProductsDto.setTotal(productDtoList.size());
+
 
 		return newProductsDto;
 
@@ -189,9 +191,10 @@ public class ProductService {
 		newProductsDto.setProductList(productDtoList);
 		List<CategoryDto> categoryList=new ArrayList<>();
 		List<BigCategory> bigCategoryList=categoryRepository.findAll();
+
 		for(BigCategory category:bigCategoryList){
-			if(productRepository.existsByBigCategory(category)){
-				int count= productRepository.countByTitleContainingAndBigCategory(sword, category);
+			int count= productRepository.countByTitleContainingAndBigCategory(sword, category);
+			if(count!=0){
 				CategoryDto categoryDto=new CategoryDto();
 				categoryDto.setCount(count);
 				categoryDto.setName(category.getName());
@@ -199,6 +202,7 @@ public class ProductService {
 				categoryList.add(categoryDto);
 			}
 		}
+
 		newProductsDto.setCategoryList(categoryList);
 		newProductsDto.setTotal(productDtoList.size());
 
