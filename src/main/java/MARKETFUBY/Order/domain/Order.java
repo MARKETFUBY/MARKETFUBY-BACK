@@ -3,6 +3,7 @@ package MARKETFUBY.Order.domain;
 import MARKETFUBY.Member.domain.Member;
 import MARKETFUBY.OrderProduct.domain.OrderProduct;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Getter
 @Entity
 @Table(name="orderr")
 @NoArgsConstructor
@@ -29,6 +31,12 @@ public class Order {
 
     @Column
     private String status;
+
+    @Column
+    private String paymentType;
+
+    @Column
+    private Long totalPrice;
 
     @OneToMany(mappedBy = "order")
     private List<OrderProduct> orderList = new ArrayList<>();
