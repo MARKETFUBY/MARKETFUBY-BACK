@@ -2,14 +2,15 @@ package MARKETFUBY.Cart.domain;
 
 import MARKETFUBY.CartProduct.domain.CartProduct;
 import MARKETFUBY.Member.domain.Member;
-import MARKETFUBY.OrderProduct.domain.OrderProduct;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @Entity
 @Table(name="cart")
 @NoArgsConstructor
@@ -30,4 +31,10 @@ public class Cart {
         this.member = member;
         this.cartList = cartList;
     }
+
+    @Builder
+    public Cart(Member member){
+        this.member=member;
+    }
+
 }

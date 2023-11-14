@@ -1,10 +1,14 @@
 package MARKETFUBY.Member.domain;
 
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
+@Getter
+@Setter
 @Entity
 @Table(name="member")
 @NoArgsConstructor
@@ -32,7 +36,7 @@ public class Member {
     @Column
     private String level;
     @Column
-    private boolean selectAgreement;
+    private Boolean selectAgreement;
     @Column
     private UseAgreement useAgreement;
 
