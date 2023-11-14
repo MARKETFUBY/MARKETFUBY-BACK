@@ -174,6 +174,7 @@ public class ProductService {
 				CategoryDto categoryDto=new CategoryDto();
 				categoryDto.setCount(count);
 				categoryDto.setName(category.getName());
+				categoryDto.setBigCategoryId(category.getBigcategoryId());
 				categoryList.add(categoryDto);
 			}
 		}
