@@ -112,8 +112,8 @@ public class ProductService {
 		for(BigCategory category:bigCategoryList){
 			//BigCategory bigCategory=categoryRepository.findById(1L).orElseThrow(()->new IllegalArgumentException("존재하지 않는 카테고리입니다."));
 			//BigCategory bigCategory=categoryRepository.findById(i).orElseThrow(()->new IllegalArgumentException("존재하지 않는 카테고리입니다."));
-			if(productRepository.existsByBigCategory(category)){
-				int count= productRepository.countByBigCategoryAndEvent(category,event);
+			int count= productRepository.countByBigCategoryAndEvent(category,event);
+			if(count!=0){
 				CategoryDto categoryDto=new CategoryDto();
 				categoryDto.setCount(count);
 				categoryDto.setName(category.getName());
