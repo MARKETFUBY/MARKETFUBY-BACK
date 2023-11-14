@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class CategoryDto {
+	private Long bigCategoryId;
 	private String name;
 	private Integer count;
 }

@@ -28,20 +28,41 @@ public class ProductService {
 
 	public MainDto getMainList(){
 		MainDto mainDto=new MainDto();
-		List<Product> productList= new ArrayList<>();
-		Event event=eventRepository.findById(4L).orElseThrow(()->new IllegalArgumentException("존재하지 않는 이벤트입니다."));
-		productList=productRepository.findTop12ByEvent(event);
+		List<Product> productList1= new ArrayList<>();
+		List<Product> productList2= new ArrayList<>();
+		List<Product> productList3= new ArrayList<>();
 
-		List<ProductDto> productDtoList=new ArrayList<>();
-		for(Product product:productList){
+		Event event1=eventRepository.findById(4L).orElseThrow(()->new IllegalArgumentException("존재하지 않는 이벤트입니다."));
+		productList1=productRepository.findTop12ByEvent(event1);
+
+		List<ProductDto> productDtoList1=new ArrayList<>();
+		for(Product product:productList1){
 			ProductDto productDto=new ProductDto(product);
-			productDtoList.add(productDto);
+			productDtoList1.add(productDto);
+		}
+
+		Event event2=eventRepository.findById(5L).orElseThrow(()->new IllegalArgumentException("존재하지 않는 이벤트입니다."));
+		productList2=productRepository.findTop12ByEvent(event2);
+
+		List<ProductDto> productDtoList2=new ArrayList<>();
+		for(Product product:productList2){
+			ProductDto productDto=new ProductDto(product);
+			productDtoList2.add(productDto);
+		}
+
+		Event event3=eventRepository.findById(6L).orElseThrow(()->new IllegalArgumentException("존재하지 않는 이벤트입니다."));
+		productList3=productRepository.findTop12ByEvent(event3);
+
+		List<ProductDto> productDtoList3=new ArrayList<>();
+		for(Product product:productList3){
+			ProductDto productDto=new ProductDto(product);
+			productDtoList3.add(productDto);
 		}
 		
 		//임시 테스트용
-		mainDto.setEvent1(productDtoList);
-		mainDto.setEvent2(productDtoList);
-		mainDto.setEvent3(productDtoList);
+		mainDto.setEvent1(productDtoList1);
+		mainDto.setEvent2(productDtoList2);
+		mainDto.setEvent3(productDtoList3);
 		return mainDto;
 
 	}
@@ -174,6 +195,7 @@ public class ProductService {
 				CategoryDto categoryDto=new CategoryDto();
 				categoryDto.setCount(count);
 				categoryDto.setName(category.getName());
+				categoryDto.setBigCategoryId(category.getBigcategoryId());
 				categoryList.add(categoryDto);
 			}
 		}
