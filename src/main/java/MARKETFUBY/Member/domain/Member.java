@@ -36,7 +36,7 @@ public class Member {
     private String level;
 
     @Builder
-    public Member(String fubyId, String passwd, String name, String email, String phone, String home, Sex sex, String birthday, String level, boolean selectAgreement){
+    public Member(String fubyId, String passwd, String name, String email, String phone, String home, Sex sex, String birthday, String level){
         this.fubyId = fubyId;
         this.passwd = passwd;
         this.name = name;
