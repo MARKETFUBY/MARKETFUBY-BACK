@@ -36,11 +36,9 @@ public class Member {
     private String level;
     @Column
     private boolean selectAgreement;
-    @Column
-    private UseAgreement useAgreement;
 
     @Builder
-    public Member(String fubyId, String passwd, String name, String email, String phone, String home, Sex sex, String birthday, String level, boolean selectAgreement, UseAgreement useAgreement){
+    public Member(String fubyId, String passwd, String name, String email, String phone, String home, Sex sex, String birthday, String level, boolean selectAgreement){
         this.fubyId = fubyId;
         this.passwd = passwd;
         this.name = name;
@@ -50,7 +48,5 @@ public class Member {
         this.sex = sex;
         this.birthday = birthday;
         this.level = level;
-        this.selectAgreement = selectAgreement;
-        this. useAgreement = useAgreement;
     }
 }

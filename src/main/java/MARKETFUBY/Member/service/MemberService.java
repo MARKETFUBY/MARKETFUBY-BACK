@@ -3,7 +3,6 @@ package MARKETFUBY.Member.service;
 import MARKETFUBY.Member.domain.Member;
 import MARKETFUBY.Member.domain.RefreshToken;
 import MARKETFUBY.Member.domain.Sex;
-import MARKETFUBY.Member.domain.UseAgreement;
 import MARKETFUBY.Member.dto.MemberLoginResponseDto;
 import MARKETFUBY.Member.repository.MemberRepository;
 import MARKETFUBY.utils.JwtUtil;
@@ -36,7 +35,7 @@ public class MemberService {
     private String refreshKey;
 
     // 회원가입
-    public String join(String fubyId, String passwd, String name, String email, String phone, String home, String sex, String birthday, String level, boolean selectAgreement, String useAgreement) {
+    public String join(String fubyId, String passwd, String name, String email, String phone, String home, String sex, String birthday, String level) {
         // fubyId 중복 체크
         if(existsByFubyId(fubyId)) throw new RuntimeException(fubyId + "은 이미 존재하는 아이디입니다!");
 
@@ -52,8 +51,6 @@ public class MemberService {
                         .sex(Sex.valueOf(sex))
                         .birthday(birthday)
                         .level(level)
-                        .selectAgreement(selectAgreement)
-                        .useAgreement(UseAgreement.valueOf(useAgreement))
                         .build()
         );
         return "성공적으로 회원가입되었습니다!";

@@ -15,6 +15,4 @@ public class MemberJoinRequestDto {
     private String sex;
     private String birthday;
     private String level;
-    private boolean selectAgreement;
-    private String useAgreement;
 }
