@@ -34,8 +34,6 @@ public class Member {
     private String birthday;
     @Column
     private String level;
-    @Column
-    private boolean selectAgreement;
 
     @Builder
     public Member(String fubyId, String passwd, String name, String email, String phone, String home, Sex sex, String birthday, String level, boolean selectAgreement){
