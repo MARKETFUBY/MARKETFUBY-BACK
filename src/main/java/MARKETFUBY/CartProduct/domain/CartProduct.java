@@ -3,10 +3,12 @@ package MARKETFUBY.CartProduct.domain;
 import MARKETFUBY.Cart.domain.Cart;
 import MARKETFUBY.Product.domain.Product;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Getter
 @Entity
 @Table(name = "cartproduct")
 @NoArgsConstructor
@@ -32,5 +34,8 @@ public class CartProduct {
         this.product = product;
         this.cart = cart;
         this.count = count;
+    }
+    public void updateCartProduct(Long count){
+        this.count=count;
     }
 }

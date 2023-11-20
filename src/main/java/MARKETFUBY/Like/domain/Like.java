@@ -10,7 +10,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@Table(name = "like")
+@Table(name = "likee")
 @NoArgsConstructor
 public class Like {
     @Id

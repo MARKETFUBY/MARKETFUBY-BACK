@@ -1,10 +1,12 @@
 package MARKETFUBY.BigCategory.domain;
 
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Getter
 @Entity
 @Table(name = "bigcategory")
 @NoArgsConstructor

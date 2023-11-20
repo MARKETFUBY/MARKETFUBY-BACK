@@ -4,10 +4,12 @@ import MARKETFUBY.BigCategory.domain.BigCategory;
 import MARKETFUBY.Event.domain.Event;
 import MARKETFUBY.SmallCategory.domain.SmallCategory;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Getter
 @Entity
 @Table(name = "product")
 @NoArgsConstructor
