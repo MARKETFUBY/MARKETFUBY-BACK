@@ -17,6 +17,9 @@ spring:
       ddl-auto: update
     generate-ddl: true
     show-sql: true
+  jwt:
+    secret-key: asWldjsl
+    refresh-key: xwkjenfoy
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
