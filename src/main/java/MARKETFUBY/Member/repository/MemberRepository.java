@@ -1,14 +1,8 @@
 package MARKETFUBY.Member.repository;
 
-import MARKETFUBY.Member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import MARKETFUBY.Member.domain.Member;
 
-@Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
-    // fubyId 중복 검사
-    Boolean existsByFubyId(String fubyId);
-    Optional<Member> findByFubyId(String fubyId);
 }
