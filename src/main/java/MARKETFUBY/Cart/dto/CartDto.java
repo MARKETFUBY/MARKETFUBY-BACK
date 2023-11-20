@@ -82,6 +82,7 @@ public class CartDto {
 
 	@Getter
 	public static class SingleProduct{
+		private Long cartProductId;
 		private String imageUrl;
 		private String productName;
 		private Long count;
@@ -89,6 +90,7 @@ public class CartDto {
 		private Long discount;
 
 		public SingleProduct(CartProduct cartProduct){
+			this.cartProductId=cartProduct.getCartProductId();
 			this.imageUrl=cartProduct.getProduct().getImage();
 			this.productName=cartProduct.getProduct().getTitle();
 			this.count=cartProduct.getCount();
