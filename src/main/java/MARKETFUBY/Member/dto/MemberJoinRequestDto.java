@@ -14,5 +14,4 @@ public class MemberJoinRequestDto {
     private String home;
     private String sex;
     private String birthday;
-    private String level;
 }

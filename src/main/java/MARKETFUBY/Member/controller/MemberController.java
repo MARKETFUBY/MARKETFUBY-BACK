@@ -21,7 +21,7 @@ public class MemberController {
     // 회원가입
     @PostMapping("/signup")
     public ResponseEntity<String> join (@RequestBody MemberJoinRequestDto requestDto) {
-        return ResponseEntity.ok().body(memberService.join(requestDto.getFubyId(), requestDto.getPasswd(), requestDto.getName(), requestDto.getEmail(), requestDto.getPhone(), requestDto.getHome(), requestDto.getSex(), requestDto.getBirthday(), requestDto.getLevel()));
+        return ResponseEntity.ok().body(memberService.join(requestDto.getFubyId(), requestDto.getPasswd(), requestDto.getName(), requestDto.getEmail(), requestDto.getPhone(), requestDto.getHome(), requestDto.getSex(), requestDto.getBirthday()));
     }
 
     // 로그인

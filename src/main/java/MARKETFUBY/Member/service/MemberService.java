@@ -35,7 +35,7 @@ public class MemberService {
     private String refreshKey;
 
     // 회원가입
-    public String join(String fubyId, String passwd, String name, String email, String phone, String home, String sex, String birthday, String level) {
+    public String join(String fubyId, String passwd, String name, String email, String phone, String home, String sex, String birthday) {
         // fubyId 중복 체크
         if(existsByFubyId(fubyId)) throw new RuntimeException(fubyId + "은 이미 존재하는 아이디입니다!");
 
@@ -50,7 +50,7 @@ public class MemberService {
                         .home(home)
                         .sex(Sex.valueOf(sex))
                         .birthday(birthday)
-                        .level(level)
+                        .level("프렌즈")
                         .build()
         );
         return "성공적으로 회원가입되었습니다!";
