@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import MARKETFUBY.Cart.domain.Cart;
 import MARKETFUBY.Cart.dto.CartDto;
+import MARKETFUBY.Cart.dto.DeleteCartDto;
 import MARKETFUBY.Cart.dto.PostCartDto;
 import MARKETFUBY.Cart.repository.CartRepository;
 import MARKETFUBY.CartProduct.domain.CartProduct;
@@ -104,5 +105,10 @@ public class CartService {
 			.orElseThrow(()-> new IllegalArgumentException("장바구니 제품이 존재하지 않습니다."));
 		cartProduct.updateCartProduct(postCartDto.getCount());
 		cartProductRepository.save(cartProduct);
+	}
+
+	public void deleteCart(DeleteCartDto deleteCartDto){
+		CartProduct cartProduct=cartProductRepository.findById(deleteCartDto.getCartProductId()).orElseThrow(()->new IllegalArgumentException("존재하지 않는 장바구니 제품입니다."));
+		cartProductRepository.delete(cartProduct);
 	}
 }
