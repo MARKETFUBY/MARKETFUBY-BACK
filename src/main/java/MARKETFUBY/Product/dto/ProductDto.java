@@ -3,9 +3,11 @@ package MARKETFUBY.Product.dto;
 import MARKETFUBY.Product.domain.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 //이미지, 배송타입, 브랜드, 제목, 부가제목, 가격, 할인, 후기 수
 @Getter
+@Setter
 @NoArgsConstructor
 public class ProductDto {
 	private Long productId;
@@ -17,6 +19,7 @@ public class ProductDto {
 	private String subtitle;
 	private Long price;
 	private Long discount;
+	private Integer reviewNum;
 
 	public ProductDto(Product product){
 		this.productId=product.getProductId();
