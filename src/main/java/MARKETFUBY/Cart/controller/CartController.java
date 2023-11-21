@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import MARKETFUBY.Cart.dto.CartDto;
 import MARKETFUBY.Cart.dto.DeleteCartDto;
 import MARKETFUBY.Cart.dto.PostCartDto;
+import MARKETFUBY.Cart.dto.UpdateCartDto;
 import MARKETFUBY.Cart.service.CartService;
 import lombok.RequiredArgsConstructor;
 
@@ -39,8 +40,8 @@ public class CartController {
 
 	@PutMapping
 	@ResponseStatus(value=HttpStatus.OK)
-	public String updateCart(@RequestBody PostCartDto postCartDto){
-		cartService.updateCart(postCartDto);
+	public String updateCart(@RequestBody UpdateCartDto updateCartDto){
+		cartService.updateCart(updateCartDto);
 		return "장바구니가 수정되었습니다.";
 	}
 

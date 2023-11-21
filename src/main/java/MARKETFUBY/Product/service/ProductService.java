@@ -17,6 +17,7 @@ import MARKETFUBY.Product.dto.ProductsListDto;
 import MARKETFUBY.Product.dto.ProductDto;
 import MARKETFUBY.Product.dto.SearchDto;
 import MARKETFUBY.Product.repository.ProductRepository;
+import MARKETFUBY.Review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -25,6 +26,7 @@ public class ProductService {
 	private final ProductRepository productRepository;
 	private final EventRepository eventRepository;
 	private final CategoryRepository categoryRepository;
+	private final ReviewRepository reviewRepository;
 
 	public MainDto getMainList(){
 		MainDto mainDto=new MainDto();
@@ -38,6 +40,7 @@ public class ProductService {
 		List<ProductDto> productDtoList1=new ArrayList<>();
 		for(Product product:productList1){
 			ProductDto productDto=new ProductDto(product);
+			productDto.setReviewNum(reviewRepository.countByProduct(product));
 			productDtoList1.add(productDto);
 		}
 
@@ -47,6 +50,7 @@ public class ProductService {
 		List<ProductDto> productDtoList2=new ArrayList<>();
 		for(Product product:productList2){
 			ProductDto productDto=new ProductDto(product);
+			productDto.setReviewNum(reviewRepository.countByProduct(product));
 			productDtoList2.add(productDto);
 		}
 
@@ -56,6 +60,7 @@ public class ProductService {
 		List<ProductDto> productDtoList3=new ArrayList<>();
 		for(Product product:productList3){
 			ProductDto productDto=new ProductDto(product);
+			productDto.setReviewNum(reviewRepository.countByProduct(product));
 			productDtoList3.add(productDto);
 		}
 		
@@ -82,6 +87,7 @@ public class ProductService {
 		List<ProductDto> productDtoList=new ArrayList<>();
 		for(Product product:productList){
 			ProductDto productDto=new ProductDto(product);
+			productDto.setReviewNum(reviewRepository.countByProduct(product));
 			productDtoList.add(productDto);
 		}
 		return productDtoList;
@@ -124,6 +130,7 @@ public class ProductService {
 		List<ProductDto> productDtoList=new ArrayList<>();
 		for(Product product:productList){
 			ProductDto productDto=new ProductDto(product);
+			productDto.setReviewNum(reviewRepository.countByProduct(product));
 			productDtoList.add(productDto);
 		}
 
@@ -185,6 +192,7 @@ public class ProductService {
 		List<ProductDto> productDtoList=new ArrayList<>();
 		for(Product product:productList){
 			ProductDto productDto=new ProductDto(product);
+			productDto.setReviewNum(reviewRepository.countByProduct(product));
 			productDtoList.add(productDto);
 		}
 
