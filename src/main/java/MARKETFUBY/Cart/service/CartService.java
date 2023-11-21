@@ -10,6 +10,7 @@ import MARKETFUBY.Cart.domain.Cart;
 import MARKETFUBY.Cart.dto.CartDto;
 import MARKETFUBY.Cart.dto.DeleteCartDto;
 import MARKETFUBY.Cart.dto.PostCartDto;
+import MARKETFUBY.Cart.dto.UpdateCartDto;
 import MARKETFUBY.Cart.repository.CartRepository;
 import MARKETFUBY.CartProduct.domain.CartProduct;
 import MARKETFUBY.CartProduct.repository.CartProductRepository;
@@ -87,23 +88,18 @@ public class CartService {
 		cartProductRepository.save(postCartDto.toEntity(cart,product,postCartDto));
 	}
 
-	public void updateCart(PostCartDto postCartDto){
+	public void updateCart(UpdateCartDto updateCartDto){
 		//현재 로그인 중인 사용자 불러오는 단계 필요
 		Long memberId=1L;
 		Member member=memberRepository.findById(memberId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 회원입니다."));
 		member.setMemberId(1L);
-		//Cart tempcart=new Cart(member);
-		//cartRepository.save(tempcart);
 
 		Cart cart=cartRepository.findTopByMemberOrderByCartIdDesc(member)
 			.orElseThrow(()-> new IllegalArgumentException("장바구니가 존재하지 않습니다."));
-		//Long cartId=cart.getCartId();
-		Long productId= postCartDto.getProductId();;
-		Product product=productRepository.findById(productId)
-			.orElseThrow(()-> new IllegalArgumentException("제품이 존재하지 않습니다."));
-		CartProduct cartProduct=cartProductRepository.findByProductAndCart(product, cart)
+		Long cartProductId= updateCartDto.getCartProductId();
+		CartProduct cartProduct=cartProductRepository.findById(cartProductId)
 			.orElseThrow(()-> new IllegalArgumentException("장바구니 제품이 존재하지 않습니다."));
-		cartProduct.updateCartProduct(postCartDto.getCount());
+		cartProduct.updateCartProduct(updateCartDto.getCount());
 		cartProductRepository.save(cartProduct);
 	}
 
