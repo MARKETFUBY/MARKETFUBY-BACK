@@ -76,16 +76,25 @@ public class CartService {
 		//현재 로그인 중인 사용자 불러오는 단계 필요
 		Long memberId=1L;
 		Member member=memberRepository.findById(memberId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 회원입니다."));
-		//Cart tempcart=new Cart(member);
-		//cartRepository.save(tempcart);
 
 		Cart cart=cartRepository.findTopByMemberOrderByCartIdDesc(member)
 			.orElseThrow(()-> new IllegalArgumentException("장바구니가 존재하지 않습니다."));
 		Long cartId=cart.getCartId();
-		Long productId= postCartDto.getProductId();;
+		Long productId= postCartDto.getProductId();
 		Product product=productRepository.findById(productId)
 			.orElseThrow(()-> new IllegalArgumentException("제품이 존재하지 않습니다."));
-		cartProductRepository.save(postCartDto.toEntity(cart,product,postCartDto));
+
+		//장바구니에 해당 제품이 이미 있다면 원래 개수에 더 추가
+		if(cartProductRepository.existsByCartAndProduct(cart, product)){
+			CartProduct cartProduct=cartProductRepository.findByProductAndCart(product,cart)
+				.orElseThrow(()-> new IllegalArgumentException("장바구니 제품이 존재하지 않습니다."));
+			cartProduct.updateCartProduct(cartProduct.getCount()+ postCartDto.getCount());
+			cartProductRepository.save(cartProduct);
+		}
+		//처음 장바구니에 넣는 제품이면 새로 그냥 추가
+		else{
+			cartProductRepository.save(postCartDto.toEntity(cart,product,postCartDto));
+		}
 	}
 
 	public void updateCart(UpdateCartDto updateCartDto){

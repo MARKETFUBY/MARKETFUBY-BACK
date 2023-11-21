@@ -12,4 +12,6 @@ import MARKETFUBY.Product.domain.Product;
 public interface CartProductRepository extends JpaRepository<CartProduct, Long> {
 	List<CartProduct> findAllByCart(Cart cart);
 	Optional<CartProduct> findByProductAndCart(Product product, Cart cart);
+
+	Boolean existsByCartAndProduct(Cart cart, Product product);
 }
