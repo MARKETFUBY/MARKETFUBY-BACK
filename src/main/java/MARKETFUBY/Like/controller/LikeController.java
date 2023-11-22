@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/goods/{product_id}/likes")
+@RequestMapping("/goods/{productId}/likes")
 public class LikeController {
     private final LikeService likeService;
 
