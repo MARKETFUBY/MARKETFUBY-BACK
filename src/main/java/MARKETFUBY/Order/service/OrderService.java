@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import MARKETFUBY.Member.domain.Member;
 import MARKETFUBY.Member.repository.MemberRepository;
+import MARKETFUBY.Member.service.MemberService;
 import MARKETFUBY.Order.domain.Order;
 import MARKETFUBY.Order.dto.OrderDto;
 import MARKETFUBY.Order.dto.OrderResponseDto;
@@ -20,14 +21,16 @@ public class OrderService {
 	private final OrderRepository orderRepository;
 	private final MemberRepository memberRepository;
 	private final OrderProductRepository orderProductRepository;
+	private final MemberService memberService;
 
 	public OrderResponseDto getOrderList(){
 
 		OrderResponseDto orderResponseDto =new OrderResponseDto();
 		List<OrderDto> orderDtoList=new ArrayList<>();
-		//현재 로그인 중인 사용자 불러오는 단계 필요
-		Long memberId=1L;
-		Member member=memberRepository.findById(memberId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 회원입니다."));
+
+		//현재 로그인 중인 사용자 불러오기
+		Member member= memberService.getCurrentMember();
+
 		orderResponseDto.setName(member.getName());
 		orderResponseDto.setLevel(member.getLevel());
 

@@ -80,6 +80,17 @@ public class CartDto {
 	private Integer discountAmount;
 	private Integer paymentAmount;
 
+	@Builder
+	public CartDto(List<SingleProduct> roomTempList, List<SingleProduct> refrigeList, List<SingleProduct> frozenList, Integer totalAmount, Integer discountAmount, Integer paymentAmount){
+		this.roomTempList=roomTempList;
+		this.refrigeList=refrigeList;
+		this.frozenList=frozenList;
+		this.totalAmount=totalAmount;
+		this.discountAmount=discountAmount;
+		this.paymentAmount=paymentAmount;
+
+	}
+
 	@Getter
 	public static class SingleProduct{
 		private Long cartProductId;
@@ -101,6 +112,8 @@ public class CartDto {
 		public static SingleProduct of(CartProduct cartProduct){
 			return new SingleProduct(cartProduct);
 		}
+
+
 
 	}
 }

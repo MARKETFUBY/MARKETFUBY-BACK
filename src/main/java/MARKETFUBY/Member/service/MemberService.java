@@ -9,10 +9,13 @@ import MARKETFUBY.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -24,7 +27,7 @@ public class MemberService {
     private final RefreshTokenService refreshTokenService;
 
     // AccessToken 만료 시간을 1시간으로 설정
-    private Long AccessExpireTimeMs = 1000 * 60 * 60L;
+    private Long AccessExpireTimeMs = 7 * 24 * 1000 * 60 * 60L;
     // RefreshToken 만료 시간을 7일로 설정
     private Long RefreshExpireTimeMs = 7 * 24 * 1000 * 60 * 60L;
 
@@ -129,5 +132,12 @@ public class MemberService {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    public Member getCurrentMember() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String fubyId = authentication.getName();
+        return memberRepository.findByFubyId(fubyId).orElseThrow(() ->
+            new ResponseStatusException(HttpStatus.FORBIDDEN, "인증된 사용자 정보가 없습니다."));
     }
 }

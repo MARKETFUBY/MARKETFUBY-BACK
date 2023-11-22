@@ -9,6 +9,7 @@ import MARKETFUBY.Inquiry.domain.Inquiry;
 import MARKETFUBY.Inquiry.dto.InquiryDto;
 import MARKETFUBY.Member.domain.Member;
 import MARKETFUBY.Member.repository.MemberRepository;
+import MARKETFUBY.Member.service.MemberService;
 import MARKETFUBY.Product.domain.Product;
 import MARKETFUBY.Product.repository.ProductRepository;
 import MARKETFUBY.Review.domain.Review;
@@ -28,12 +29,13 @@ public class ReviewService {
 	private final ReviewRepository reviewRepository;
 	private final ReviewImageRepository reviewImageRepository;
 	private final MemberRepository memberRepository;
+	private final MemberService memberService;
 
 	public ReviewResponseDto getReviewList(){
 		ReviewResponseDto reviewResponseDto=new ReviewResponseDto();
-		//현재 로그인 중인 사용자 불러오는 단계 필요
-		Long memberId=1L;
-		Member member=memberRepository.findById(memberId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 회원입니다."));
+
+		//현재 로그인 중인 사용자 불러오기
+		Member member= memberService.getCurrentMember();
 
 		reviewResponseDto.setName(member.getName());
 		reviewResponseDto.setLevel(member.getLevel());
@@ -49,10 +51,11 @@ public class ReviewService {
 	}
 
 	public void create(ReviewRequestDto reviewRequestDto){
-		//현재 로그인 중인 사용자 불러오는 단계 필요
-		Long memberId=1L;
-		Member member=new Member();
-		member.setMemberId(1L);
+
+		//현재 로그인 중인 사용자 불러오기
+		Member member= memberService.getCurrentMember();
+		System.out.println("memberName : "+member.getName());
+
 		Long productId= reviewRequestDto.getProductId();
 		Product product=productRepository.findById(productId)
 			.orElseThrow(()->new IllegalArgumentException("존재하지 않는 제품입니다."));

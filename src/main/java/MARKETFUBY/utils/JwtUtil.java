@@ -16,7 +16,7 @@ public class JwtUtil {
     // token에서 userName을 가져와 리턴
     public static String getUserName(String token, String secretKey) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
-                .getBody().get("userName", String.class);
+                .getBody().get("fubyId", String.class);
     }
 
     // token 생성 (createAccessToken과 createRefreshToken이 이 함수를 호출)

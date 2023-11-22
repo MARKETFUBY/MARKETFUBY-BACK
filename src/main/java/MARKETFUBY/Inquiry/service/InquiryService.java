@@ -13,6 +13,7 @@ import MARKETFUBY.Inquiry.dto.InquiryResponseDto;
 import MARKETFUBY.Inquiry.repository.InquiryRepository;
 import MARKETFUBY.Member.domain.Member;
 import MARKETFUBY.Member.repository.MemberRepository;
+import MARKETFUBY.Member.service.MemberService;
 import MARKETFUBY.Product.domain.Product;
 import MARKETFUBY.Product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,14 +24,14 @@ public class InquiryService {
 	private final InquiryRepository inquiryRepository;
 	private final ProductRepository productRepository;
 	private final MemberRepository memberRepository;
+	private final MemberService memberService;
 
 	@Transactional(readOnly = true)
 	public InquiryResponseDto getInquiryInfo(){
 		InquiryResponseDto inquiryResponseDto= new InquiryResponseDto();
 
-		//현재 로그인 중인 사용자 불러오는 단계 필요
-		Long memberId=1L;
-		Member member=memberRepository.findById(memberId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 회원입니다."));
+		//현재 로그인 중인 사용자 불러오기
+		Member member= memberService.getCurrentMember();
 
 		inquiryResponseDto.setName(member.getName());
 		inquiryResponseDto.setLevel(member.getLevel());
@@ -47,14 +48,14 @@ public class InquiryService {
 	}
 
 	public void create(InquiryRequestDto inquiryRequestDto){
-		//현재 로그인 중인 사용자 불러오는 단계 필요
-		Long memberId=1L;
-		Member member=new Member();
-		member.setMemberId(1L);
-		Long productId=1L;
+		//현재 로그인 중인 사용자 불러오기
+		Member member= memberService.getCurrentMember();
+
+		Long productId= inquiryRequestDto.getProductId();
+
 		Product product=productRepository.findById(productId)
 			.orElseThrow(()->new IllegalArgumentException("존재하지 않는 제품입니다."));
-		Inquiry inquiry=inquiryRepository.save(inquiryRequestDto.toEntity(member, product));
+		inquiryRepository.save(inquiryRequestDto.toEntity(member, product));
 	}
 
 	public void update(Long inquiryId, InquiryRequestDto inquiryRequestDto){
