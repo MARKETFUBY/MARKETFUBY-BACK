@@ -10,4 +10,5 @@ import MARKETFUBY.Member.domain.Member;
 public interface CartRepository extends JpaRepository<Cart, Long> {
 	Optional<Cart> findTopByMemberOrderByCartIdDesc(Member member);
 	Optional<Cart> findByCartId(Long cartId);
+	Integer countByMember(Member member);
 }
