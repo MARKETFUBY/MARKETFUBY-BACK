@@ -27,7 +27,7 @@ public class MemberService {
     private final RefreshTokenService refreshTokenService;
 
     // AccessToken 만료 시간을 1시간으로 설정
-    private Long AccessExpireTimeMs = 1000 * 60 * 60L;
+    private Long AccessExpireTimeMs = 7 * 24 * 1000 * 60 * 60L;
     // RefreshToken 만료 시간을 7일로 설정
     private Long RefreshExpireTimeMs = 7 * 24 * 1000 * 60 * 60L;
 
