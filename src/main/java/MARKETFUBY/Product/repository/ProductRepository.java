@@ -3,6 +3,7 @@ package MARKETFUBY.Product.repository;
 import java.util.List;
 import java.util.Optional;
 
+import MARKETFUBY.Product.domain.Product;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 

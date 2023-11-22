@@ -2,9 +2,10 @@ package MARKETFUBY.Product.service;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import javax.persistence.EntityNotFoundException;
 
 import MARKETFUBY.BigCategory.domain.BigCategory;
 import MARKETFUBY.BigCategory.dto.CategoryDto;
@@ -19,6 +20,9 @@ import MARKETFUBY.Product.dto.SearchDto;
 import MARKETFUBY.Product.repository.ProductRepository;
 import MARKETFUBY.Review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
+import MARKETFUBY.Like.domain.Like;
+import MARKETFUBY.Member.domain.Member;
+import MARKETFUBY.Member.service.MemberService;
 
 @Service
 @RequiredArgsConstructor
@@ -220,4 +224,11 @@ public class ProductService {
 		return searchDto;
 
 	}
+ 
+    // 찜하기에서 사용
+    @Transactional(readOnly = true)
+    public Product findProductById(Long productId){
+        return productRepository.findById(productId)
+                .orElseThrow(()->new EntityNotFoundException("해당 상품이 존재하지 않습니다."));
+    }
 }
