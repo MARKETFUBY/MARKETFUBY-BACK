@@ -1,17 +1,16 @@
 package MARKETFUBY.Member.domain;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
 @Entity
+@Getter
 @Table(name="member")
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,13 +34,9 @@ public class Member {
     private String birthday;
     @Column
     private String level;
-    @Column
-    private Boolean selectAgreement;
-    @Column
-    private UseAgreement useAgreement;
 
     @Builder
-    public Member(String fubyId, String passwd, String name, String email, String phone, String home, Sex sex, String birthday, String level, boolean selectAgreement, UseAgreement useAgreement){
+    public Member(String fubyId, String passwd, String name, String email, String phone, String home, Sex sex, String birthday, String level) {
         this.fubyId = fubyId;
         this.passwd = passwd;
         this.name = name;
@@ -51,7 +46,5 @@ public class Member {
         this.sex = sex;
         this.birthday = birthday;
         this.level = level;
-        this.selectAgreement = selectAgreement;
-        this. useAgreement = useAgreement;
     }
 }
