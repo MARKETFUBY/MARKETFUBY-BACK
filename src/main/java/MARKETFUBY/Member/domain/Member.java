@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Table(name="member")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
