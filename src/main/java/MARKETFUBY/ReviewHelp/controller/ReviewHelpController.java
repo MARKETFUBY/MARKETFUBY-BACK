@@ -27,8 +27,7 @@ public class ReviewHelpController {
 
     @DeleteMapping
     @ResponseStatus(value = HttpStatus.OK)
-    public String deleteReviewHelp(@PathVariable Long reviewId, @RequestBody ReviewHelpRequestDto reviewHelpRequestDto){
-        Long memberId = reviewHelpRequestDto.getMemberId();
+    public String deleteReviewHelp(@PathVariable Long reviewId, @RequestParam("memberId") Long memberId){
         if(memberId != null){
             reviewHelpService.delete(reviewId, memberId);
             return "도움돼요가 취소되었습니다.";
