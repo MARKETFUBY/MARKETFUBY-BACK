@@ -41,6 +41,15 @@ public class ReviewHelpService {
         reviewHelpRepository.save(reviewHelp);
     }
 
+    public void delete(Long reviewId, Long memberId){
+        Review review = reviewService.findReviewById(reviewId);
+        Member member = memberService.findMemberById(memberId);
+
+        ReviewHelp reviewHelp = reviewHelpRepository.findByMemberAndReview(member, review)
+                .orElseThrow(()->new RuntimeException("도움돼요가 존재하지 않습니다."));
+        reviewHelpRepository.delete(reviewHelp);
+    }
+
     @Transactional(readOnly = true)
     public boolean isExistsByMemberAndReview(Member member, Review review){
         return reviewHelpRepository.existsByMemberAndReview(member, review);

@@ -25,4 +25,16 @@ public class ReviewHelpController {
         }
     }
 
+    @DeleteMapping
+    @ResponseStatus(value = HttpStatus.OK)
+    public String deleteReviewHelp(@PathVariable Long reviewId, @RequestBody ReviewHelpRequestDto reviewHelpRequestDto){
+        Long memberId = reviewHelpRequestDto.getMemberId();
+        if(memberId != null){
+            reviewHelpService.delete(reviewId, memberId);
+            return "도움돼요가 취소되었습니다.";
+        }
+        else{
+            return "로그인이 필요한 서비스입니다.";
+        }
+    }
 }
