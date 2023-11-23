@@ -146,6 +146,6 @@ public class MemberService {
     }
 
     public Boolean checkEmailDuplicate(String email){
-        return memberRepository.existsByFubyId(email);
+        return memberRepository.existsByEmail(email);
     }
 }
