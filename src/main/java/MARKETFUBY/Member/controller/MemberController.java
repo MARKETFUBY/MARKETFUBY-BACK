@@ -48,4 +48,16 @@ public class MemberController {
     public MemberLoginResponseDto requestRefresh (@RequestBody RefreshTokenRequestDto refreshTokenDto) {
         return memberService.requestRefresh(refreshTokenDto.getRefreshToken());
     }
+
+    // 회원가입 시 아이디 중복확인
+    @GetMapping("/fubyId/{fubyId}/exists")
+    public ResponseEntity<Boolean> checkFubyIdDuplicate(@PathVariable String fubyId){
+        return ResponseEntity.ok(memberService.checkFubyIdDuplicate(fubyId));
+    }
+
+    // 회원가입 시 이메일 중복확인
+    @GetMapping("/email/{email}/exists")
+    public ResponseEntity<Boolean> checkEmailDuplicate(@PathVariable String email){
+        return ResponseEntity.ok(memberService.checkEmailDuplicate(email));
+    }
 }
