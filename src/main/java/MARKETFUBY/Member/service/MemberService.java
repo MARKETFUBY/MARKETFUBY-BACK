@@ -140,4 +140,12 @@ public class MemberService {
         return memberRepository.findByFubyId(fubyId).orElseThrow(() ->
             new ResponseStatusException(HttpStatus.FORBIDDEN, "인증된 사용자 정보가 없습니다."));
     }
+
+    public Boolean checkFubyIdDuplicate(String fubyId){
+        return memberRepository.existsByFubyId(fubyId);
+    }
+
+    public Boolean checkEmailDuplicate(String email){
+        return memberRepository.existsByFubyId(email);
+    }
 }
