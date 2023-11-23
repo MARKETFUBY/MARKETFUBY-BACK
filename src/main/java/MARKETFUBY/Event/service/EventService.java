@@ -7,8 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -17,15 +18,14 @@ public class EventService {
     private final EventRepository eventRepository;
 
     // 이벤트 목록 조회
-    @Transactional(readOnly = true)
     public List<EventDto> getEventList() {
-        List<Event> allEvents = eventRepository.findAll();
-
-        List<EventDto> eventDtoList = new ArrayList<>();
-        for (Event event : allEvents) {
-            Long eventId = event.getEventId();
-            String image = event.getImage();
-        }
+        List<Event> eventList = new Stack<>();
+        eventList = eventRepository.findAll();
+        List<EventDto> eventDtoList = eventList.stream()
+                .map(h -> EventDto.builder()
+                        .event(h)
+                        .build())
+                .collect(Collectors.toList());
         return eventDtoList;
     }
 }

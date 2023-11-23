@@ -7,16 +7,14 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-@Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class EventDto{
-        private Long eventId;
-        private String image;
+    private Long eventId;
+    private String image;
 
-    public static EventDto from(Event event) {
-        return EventDto.builder()
-                .eventId(event.getEventId())
-                .image(event.getImage())
-                .build();
+    @Builder
+    public EventDto(Event event){
+        this.eventId = event.getEventId();
+        this.image = event.getImage();
     }
 }
