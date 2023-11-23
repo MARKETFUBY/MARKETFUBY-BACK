@@ -15,7 +15,6 @@ import MARKETFUBY.Cart.repository.CartRepository;
 import MARKETFUBY.CartProduct.domain.CartProduct;
 import MARKETFUBY.CartProduct.repository.CartProductRepository;
 import MARKETFUBY.Member.domain.Member;
-import MARKETFUBY.Member.repository.MemberRepository;
 import MARKETFUBY.Member.service.MemberService;
 import MARKETFUBY.Product.domain.Product;
 import MARKETFUBY.Product.repository.ProductRepository;
@@ -28,7 +27,6 @@ public class CartService {
 	private final CartRepository cartRepository;
 	private final CartProductRepository cartProductRepository;
 	private final ProductRepository productRepository;
-	private final MemberRepository memberRepository;
 	private final MemberService memberService;
 
 	@Transactional(readOnly=true)

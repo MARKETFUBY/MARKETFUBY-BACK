@@ -5,10 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import MARKETFUBY.Inquiry.domain.Inquiry;
-import MARKETFUBY.Inquiry.dto.InquiryDto;
 import MARKETFUBY.Member.domain.Member;
-import MARKETFUBY.Member.repository.MemberRepository;
 import MARKETFUBY.Member.service.MemberService;
 import MARKETFUBY.Product.domain.Product;
 import MARKETFUBY.Product.repository.ProductRepository;
@@ -31,7 +28,6 @@ public class ReviewService {
 	private final ProductRepository productRepository;
 	private final ReviewRepository reviewRepository;
 	private final ReviewImageRepository reviewImageRepository;
-	private final MemberRepository memberRepository;
 	private final MemberService memberService;
 
 	public ReviewResponseDto getReviewList(){

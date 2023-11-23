@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import MARKETFUBY.Member.domain.Member;
-import MARKETFUBY.Member.repository.MemberRepository;
 import MARKETFUBY.Member.service.MemberService;
 import MARKETFUBY.Order.domain.Order;
 import MARKETFUBY.Order.dto.OrderDto;
@@ -19,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class OrderService {
 	private final OrderRepository orderRepository;
-	private final MemberRepository memberRepository;
 	private final OrderProductRepository orderProductRepository;
 	private final MemberService memberService;
 
