@@ -6,7 +6,10 @@ import MARKETFUBY.ReviewHelp.domain.ReviewHelp;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface ReviewHelpRepository extends JpaRepository<ReviewHelp, Long> {
     boolean existsByMemberAndReview(Member member, Review review);
+    Optional<ReviewHelp> findByMemberAndReview(Member member, Review review);
 }
