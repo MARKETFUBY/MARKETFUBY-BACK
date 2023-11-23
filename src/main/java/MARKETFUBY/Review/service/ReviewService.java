@@ -19,6 +19,9 @@ import MARKETFUBY.Review.repository.ReviewRepository;
 import MARKETFUBY.ReviewImage.domain.ReviewImage;
 import MARKETFUBY.ReviewImage.repository.ReviewImageRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -80,4 +83,12 @@ public class ReviewService {
 		review.updateReview(reviewRequestDto.getContent());
 		reviewRepository.save(review);
 	}
+
+	// 도움돼요에서 사용
+	@Transactional(readOnly = true)
+	public Review findReviewById(Long reviewId){
+		return reviewRepository.findById(reviewId)
+				.orElseThrow(()->new EntityNotFoundException("해당 리뷰가 존재하지 않습니다."));
+	}
+
 }
