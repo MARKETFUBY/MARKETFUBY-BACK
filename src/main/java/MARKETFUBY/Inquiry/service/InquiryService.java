@@ -12,7 +12,6 @@ import MARKETFUBY.Inquiry.dto.InquiryRequestDto;
 import MARKETFUBY.Inquiry.dto.InquiryResponseDto;
 import MARKETFUBY.Inquiry.repository.InquiryRepository;
 import MARKETFUBY.Member.domain.Member;
-import MARKETFUBY.Member.repository.MemberRepository;
 import MARKETFUBY.Member.service.MemberService;
 import MARKETFUBY.Product.domain.Product;
 import MARKETFUBY.Product.repository.ProductRepository;
@@ -23,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 public class InquiryService {
 	private final InquiryRepository inquiryRepository;
 	private final ProductRepository productRepository;
-	private final MemberRepository memberRepository;
 	private final MemberService memberService;
 
 	@Transactional(readOnly = true)

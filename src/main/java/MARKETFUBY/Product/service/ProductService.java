@@ -20,9 +20,6 @@ import MARKETFUBY.Product.dto.SearchDto;
 import MARKETFUBY.Product.repository.ProductRepository;
 import MARKETFUBY.Review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
-import MARKETFUBY.Like.domain.Like;
-import MARKETFUBY.Member.domain.Member;
-import MARKETFUBY.Member.service.MemberService;
 
 @Service
 @RequiredArgsConstructor
