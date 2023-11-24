@@ -73,28 +73,6 @@ public class ProductService {
 
 	}
 
-	//카테고리 선택 후 들어온 경로
-	public List<ProductDto> getCategoryProductList(Integer sort, Pageable pageable){
-		List<Product> productList= new ArrayList<>();
-		if(sort==5) {//낮은가격순
-			productList=productRepository.findAllByOrderByPriceAsc();
-		} else if (sort==4) {//높은가격순
-			productList=productRepository.findAllByOrderByPriceDesc();
-		} else if(sort==3){//혜택순
-			productList=productRepository.findAllByOrderByDiscountDesc();
-		} else{//추천순
-			productList=productRepository.findAll();
-		}
-		List<ProductDto> productDtoList=new ArrayList<>();
-		for(Product product:productList){
-			ProductDto productDto=new ProductDto(product);
-			productDto.setReviewNum(reviewRepository.countByProduct(product));
-			productDtoList.add(productDto);
-		}
-		return productDtoList;
-
-	}
-
 	public ProductsListDto getProductList(Integer sort, Long filters, Long eventId){
 
 		ProductsListDto newProductsDto=new ProductsListDto();
