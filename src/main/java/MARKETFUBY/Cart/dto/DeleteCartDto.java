@@ -1,8 +1,10 @@
 package MARKETFUBY.Cart.dto;
 
+import java.util.List;
+
 import lombok.Getter;
 
 @Getter
 public class DeleteCartDto {
-	private Long cartProductId;
+	private List<Long> cartProductId;
 }
