@@ -62,12 +62,16 @@ public class Product {
     @Column
     private String date;
 
-    // 상품 상세정보 보여주는 img의 URL
+    // 상품설명 이미지의 URL
     @Column
-    private String detailImg;
+    private String productInfoImg;
+
+    // 상세정보 이미지의 URL
+    @Column
+    private String detailInfoImg;
 
     @Builder
-    public Product(BigCategory bigCategory, SmallCategory smallCategory, Event event, String image, String  title, String  subtitle, Long price, Long discount, String brand, Packing packing, String unit, String weight, String origin, String expiration, String info, String delivery, String seller, String date, String detailImg){
+    public Product(BigCategory bigCategory, SmallCategory smallCategory, Event event, String image, String  title, String  subtitle, Long price, Long discount, String brand, Packing packing, String unit, String weight, String origin, String expiration, String info, String delivery, String seller, String date, String productInfoImg, String detailInfoImg){
         this.bigCategory = bigCategory;
         this.smallCategory = smallCategory;
         this.event = event;
@@ -86,6 +90,7 @@ public class Product {
         this.delivery = delivery;
         this.seller = seller;
         this.date = date;
-        this.detailImg = detailImg;
+        this.productInfoImg = productInfoImg;
+        this.detailInfoImg = detailInfoImg;
     }
 }
