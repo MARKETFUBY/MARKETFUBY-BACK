@@ -9,7 +9,7 @@ import javax.persistence.EntityNotFoundException;
 
 import MARKETFUBY.BigCategory.domain.BigCategory;
 import MARKETFUBY.BigCategory.dto.CategoryDto;
-import MARKETFUBY.BigCategory.repository.CategoryRepository;
+import MARKETFUBY.BigCategory.repository.BigCategoryRepository;
 import MARKETFUBY.Event.domain.Event;
 import MARKETFUBY.Event.repository.EventRepository;
 import MARKETFUBY.Product.domain.Product;
@@ -26,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class ProductService {
 	private final ProductRepository productRepository;
 	private final EventRepository eventRepository;
-	private final CategoryRepository categoryRepository;
+	private final BigCategoryRepository bigcategoryRepository;
 	private final ReviewRepository reviewRepository;
 
 	public MainDto getMainList(){
@@ -73,28 +73,6 @@ public class ProductService {
 
 	}
 
-	//카테고리 선택 후 들어온 경로
-	public List<ProductDto> getCategoryProductList(Integer sort, Pageable pageable){
-		List<Product> productList= new ArrayList<>();
-		if(sort==5) {//낮은가격순
-			productList=productRepository.findAllByOrderByPriceAsc();
-		} else if (sort==4) {//높은가격순
-			productList=productRepository.findAllByOrderByPriceDesc();
-		} else if(sort==3){//혜택순
-			productList=productRepository.findAllByOrderByDiscountDesc();
-		} else{//추천순
-			productList=productRepository.findAll();
-		}
-		List<ProductDto> productDtoList=new ArrayList<>();
-		for(Product product:productList){
-			ProductDto productDto=new ProductDto(product);
-			productDto.setReviewNum(reviewRepository.countByProduct(product));
-			productDtoList.add(productDto);
-		}
-		return productDtoList;
-
-	}
-
 	public ProductsListDto getProductList(Integer sort, Long filters, Long eventId){
 
 		ProductsListDto newProductsDto=new ProductsListDto();
@@ -116,7 +94,7 @@ public class ProductService {
 			}
 		}
 		else{ //filters 선택한 경우
-			BigCategory bigCategory=categoryRepository.findById(filters).orElseThrow(()->new IllegalArgumentException("존재하지 않는 대카테고리입니다."));
+			BigCategory bigCategory=bigcategoryRepository.findById(filters).orElseThrow(()->new IllegalArgumentException("존재하지 않는 대카테고리입니다."));
 			if(sort==5) {//낮은가격순
 				productList=productRepository.findTop12ByEventAndBigCategoryOrderByPriceAsc(event, bigCategory);
 			} else if (sort==4) {//높은가격순
@@ -137,7 +115,7 @@ public class ProductService {
 
 		newProductsDto.setProductList(productDtoList);
 		List<CategoryDto> categoryList=new ArrayList<>();
-		List<BigCategory> bigCategoryList=categoryRepository.findAll();
+		List<BigCategory> bigCategoryList=bigcategoryRepository.findAll();
 		for(BigCategory category:bigCategoryList){
 			//BigCategory bigCategory=categoryRepository.findById(1L).orElseThrow(()->new IllegalArgumentException("존재하지 않는 카테고리입니다."));
 			//BigCategory bigCategory=categoryRepository.findById(i).orElseThrow(()->new IllegalArgumentException("존재하지 않는 카테고리입니다."));
@@ -178,7 +156,7 @@ public class ProductService {
 			}
 		}
 		else{ //filters 선택한 경우
-			BigCategory bigCategory=categoryRepository.findById(filters).orElseThrow(()->new IllegalArgumentException("존재하지 않는 대카테고리입니다."));
+			BigCategory bigCategory=bigcategoryRepository.findById(filters).orElseThrow(()->new IllegalArgumentException("존재하지 않는 대카테고리입니다."));
 			if(sort==5) {//낮은가격순
 				productList=productRepository.findTop12ByTitleContainingAndBigCategoryOrderByPriceAsc(sword, bigCategory);
 			} else if (sort==4) {//높은가격순
@@ -199,7 +177,7 @@ public class ProductService {
 
 		newProductsDto.setProductList(productDtoList);
 		List<CategoryDto> categoryList=new ArrayList<>();
-		List<BigCategory> bigCategoryList=categoryRepository.findAll();
+		List<BigCategory> bigCategoryList=bigcategoryRepository.findAll();
 
 		for(BigCategory category:bigCategoryList){
 			int count= productRepository.countByTitleContainingAndBigCategory(sword, category);

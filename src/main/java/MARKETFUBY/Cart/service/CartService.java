@@ -135,7 +135,10 @@ public class CartService {
 	}
 
 	public void deleteCart(DeleteCartDto deleteCartDto){
-		CartProduct cartProduct=cartProductRepository.findById(deleteCartDto.getCartProductId()).orElseThrow(()->new IllegalArgumentException("존재하지 않는 장바구니 제품입니다."));
-		cartProductRepository.delete(cartProduct);
+		List<Long> cartIdList=deleteCartDto.getCartProductId();
+		for(Long id: cartIdList){
+			CartProduct cartProduct=cartProductRepository.findById(id).orElseThrow(()->new IllegalArgumentException("존재하지 않는 장바구니 제품입니다."));
+			cartProductRepository.delete(cartProduct);
+		}
 	}
 }
