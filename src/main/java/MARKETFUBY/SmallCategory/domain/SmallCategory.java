@@ -3,10 +3,12 @@ package MARKETFUBY.SmallCategory.domain;
 import MARKETFUBY.BigCategory.domain.BigCategory;
 import MARKETFUBY.Member.domain.Member;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Getter
 @Entity
 @Table(name = "smallcategory")
 @NoArgsConstructor
