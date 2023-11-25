@@ -1,17 +1,12 @@
 package MARKETFUBY.Product.controller;
 
-import java.util.List;
-
-import org.springframework.data.domain.Pageable;
+import MARKETFUBY.Product.domain.Product;
+import MARKETFUBY.Product.dto.ProductDetailDto;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import MARKETFUBY.Product.dto.MainDto;
 import MARKETFUBY.Product.dto.ProductsListDto;
-import MARKETFUBY.Product.dto.ProductDto;
 import MARKETFUBY.Product.dto.SearchDto;
 import MARKETFUBY.Product.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +28,7 @@ public class ProductController {
 		if (sort == null) {
 			sort = 0;
 		}
-		if (filters == null){
+		if (filters == null) {
 			filters = 0L;
 		}
 		return productService.getProductList(sort, filters, 1l);
@@ -45,7 +40,7 @@ public class ProductController {
 		if (sort == null) {
 			sort = 0;
 		}
-		if (filters == null){
+		if (filters == null) {
 			filters = 0L;
 		}
 		return productService.getProductList(sort, filters, 2l);
@@ -57,21 +52,28 @@ public class ProductController {
 		if (sort == null) {
 			sort = 0;
 		}
-		if (filters == null){
+		if (filters == null) {
 			filters = 0L;
 		}
 		return productService.getProductList(sort, filters, 3l);
 	}
 
 	@GetMapping(value = "/search")
-	@ResponseStatus(value=HttpStatus.OK)
-	public SearchDto getSearchList(@RequestParam String sword,@RequestParam(required = false) Integer sort, @RequestParam(required = false) Long filters){
+	@ResponseStatus(value = HttpStatus.OK)
+	public SearchDto getSearchList(@RequestParam String sword, @RequestParam(required = false) Integer sort, @RequestParam(required = false) Long filters) {
 		if (sort == null) {
 			sort = 0;
 		}
-		if (filters == null){
+		if (filters == null) {
 			filters = 0L;
 		}
 		return productService.getSearchList(sword, sort, filters);
+	}
+
+	@GetMapping("/products/{productId}")
+	@ResponseStatus(value = HttpStatus.OK)
+	public ProductDetailDto getProductDetail(@PathVariable Long productId){
+	    Product product = productService.findProductById(productId);
+	    return productService.getProductDetailDto(product);
 	}
 }

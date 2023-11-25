@@ -2,6 +2,13 @@ package MARKETFUBY.Product.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import MARKETFUBY.Inquiry.domain.Inquiry;
+import MARKETFUBY.Inquiry.repository.InquiryRepository;
+import MARKETFUBY.Product.dto.*;
+import MARKETFUBY.Review.domain.Review;
+import MARKETFUBY.Review.dto.ReviewResponseDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,10 +20,6 @@ import MARKETFUBY.BigCategory.repository.CategoryRepository;
 import MARKETFUBY.Event.domain.Event;
 import MARKETFUBY.Event.repository.EventRepository;
 import MARKETFUBY.Product.domain.Product;
-import MARKETFUBY.Product.dto.MainDto;
-import MARKETFUBY.Product.dto.ProductsListDto;
-import MARKETFUBY.Product.dto.ProductDto;
-import MARKETFUBY.Product.dto.SearchDto;
 import MARKETFUBY.Product.repository.ProductRepository;
 import MARKETFUBY.Review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +31,7 @@ public class ProductService {
 	private final EventRepository eventRepository;
 	private final CategoryRepository categoryRepository;
 	private final ReviewRepository reviewRepository;
+	private final InquiryRepository inquiryRepository;
 
 	public MainDto getMainList(){
 		MainDto mainDto=new MainDto();
@@ -220,6 +224,34 @@ public class ProductService {
 
 		return searchDto;
 
+	}
+
+	public ProductDetailDto getProductDetailDto(Product product){
+		List<ProductReviewDto> reviews = findReviewsByProduct(product);
+		Integer reviewCount = reviews.size();
+		List<ProductInquiryDto> inquiries = findInquiriesByProduct(product);
+		ProductDetailDto productDetailDto = new ProductDetailDto(product, reviewCount, reviews, inquiries);
+		return productDetailDto;
+	}
+
+	public List<ProductReviewDto> findReviewsByProduct(Product product){
+		List<Review> reviewList = reviewRepository.findAllByProduct(product);
+		List<ProductReviewDto> productReviewDtos = new ArrayList<>();
+		reviewList.forEach(review -> {
+			ProductReviewDto productReviewDto = ProductReviewDto.from(review);
+			productReviewDtos.add(productReviewDto);
+		});
+		return productReviewDtos;
+	}
+
+	public List<ProductInquiryDto> findInquiriesByProduct(Product product){
+		List<Inquiry> inquiryList = inquiryRepository.findAllByProduct(product);
+		List<ProductInquiryDto> productInquiryDtos = new ArrayList<>();
+		inquiryList.forEach(inquiry -> {
+			ProductInquiryDto productInquiryDto = ProductInquiryDto.from(inquiry);
+			productInquiryDtos.add(productInquiryDto);
+		});
+		return productInquiryDtos;
 	}
  
     // 찜하기에서 사용
