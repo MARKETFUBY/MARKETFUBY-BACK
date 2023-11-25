@@ -72,8 +72,8 @@ public class ProductController {
 
 	@GetMapping("/products/{productId}")
 	@ResponseStatus(value = HttpStatus.OK)
-	public ProductDetailDto getProductDetail(@PathVariable Long productId){
+	public ProductDetailDto getProductDetail(@PathVariable Long productId, @RequestParam Long memberId){
 	    Product product = productService.findProductById(productId);
-	    return productService.getProductDetailDto(product);
+	    return productService.getProductDetailDto(product, memberId);
 	}
 }

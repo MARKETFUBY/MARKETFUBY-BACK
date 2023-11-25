@@ -2,17 +2,22 @@ package MARKETFUBY.Product.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import MARKETFUBY.Inquiry.domain.Inquiry;
 import MARKETFUBY.Inquiry.repository.InquiryRepository;
+import MARKETFUBY.Member.domain.Member;
+import MARKETFUBY.Member.repository.MemberRepository;
 import MARKETFUBY.Product.dto.*;
 import MARKETFUBY.Review.domain.Review;
 import MARKETFUBY.Review.dto.ReviewResponseDto;
+import MARKETFUBY.ReviewHelp.repository.ReviewHelpRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
+import javax.swing.text.html.Option;
 
 import MARKETFUBY.BigCategory.domain.BigCategory;
 import MARKETFUBY.BigCategory.dto.CategoryDto;
@@ -32,6 +37,8 @@ public class ProductService {
 	private final BigCategoryRepository bigcategoryRepository;
 	private final ReviewRepository reviewRepository;
 	private final InquiryRepository inquiryRepository;
+	private final ReviewHelpRepository reviewHelpRepository;
+	private final MemberRepository memberRepository;
 
 	public MainDto getMainList(){
 		MainDto mainDto=new MainDto();
@@ -204,20 +211,27 @@ public class ProductService {
 
 	}
 
-	public ProductDetailDto getProductDetailDto(Product product){
-		List<ProductReviewDto> reviews = findReviewsByProduct(product);
+	public ProductDetailDto getProductDetailDto(Product product, Long memberId){
+		List<ProductReviewDto> reviews = findReviewsByProduct(product, memberId);
 		Integer reviewCount = reviews.size();
 		List<ProductInquiryDto> inquiries = findInquiriesByProduct(product);
 		ProductDetailDto productDetailDto = new ProductDetailDto(product, reviewCount, reviews, inquiries);
 		return productDetailDto;
 	}
 
-	public List<ProductReviewDto> findReviewsByProduct(Product product){
+	public List<ProductReviewDto> findReviewsByProduct(Product product, Long memberId){
 		List<Review> reviewList = reviewRepository.findAllByProduct(product);
 		List<ProductReviewDto> productReviewDtos = new ArrayList<>();
 		reviewList.forEach(review -> {
-			ProductReviewDto productReviewDto = ProductReviewDto.from(review);
-			productReviewDtos.add(productReviewDto);
+			Member member = memberRepository.findByMemberId(memberId);
+			if (member != null) {
+				Boolean isReviewHelp = reviewHelpRepository.existsByMemberAndReview(member, review);
+				ProductReviewDto productReviewDto = ProductReviewDto.from(review, isReviewHelp);
+				productReviewDtos.add(productReviewDto);
+			} else {
+				ProductReviewDto productReviewDto = ProductReviewDto.from(review, false);
+				productReviewDtos.add(productReviewDto);
+			}
 		});
 		return productReviewDtos;
 	}

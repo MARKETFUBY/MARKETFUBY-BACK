@@ -19,8 +19,9 @@ public class ProductReviewDto {
     private String content;
     // private String imgUrl;
     private LocalDate date;
+    private Boolean isReviewHelp;
 
-    public static ProductReviewDto from(Review review){
+    public static ProductReviewDto from(Review review, Boolean isReviewHelp){
         return ProductReviewDto.builder()
                 .name(review.getWriter().getName())
                 .level(review.getWriter().getLevel())
@@ -28,6 +29,7 @@ public class ProductReviewDto {
                 .title(review.getProduct().getTitle())
                 .content(review.getContent())
                 .date(review.getCreatedAt().toLocalDate())
+                .isReviewHelp(isReviewHelp)
                 .build();
     }
 }
