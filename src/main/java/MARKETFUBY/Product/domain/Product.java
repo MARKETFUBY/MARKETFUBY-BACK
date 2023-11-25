@@ -6,6 +6,7 @@ import MARKETFUBY.SmallCategory.domain.SmallCategory;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -61,9 +62,15 @@ public class Product {
     private String seller;
     @Column
     private String date;
+    // 상품설명 이미지의 URL
+    @Column
+    private String productInfoImg;
+    // 상세정보 이미지의 URL
+    @Column
+    private String detailInfoImg;
 
     @Builder
-    public Product(BigCategory bigCategory, SmallCategory smallCategory, Event event, String image, String  title, String  subtitle, Long price, Long discount, String brand, Packing packing, String unit, String weight, String origin, String expiration, String info, String delivery, String seller, String date){
+    public Product(BigCategory bigCategory, SmallCategory smallCategory, Event event, String image, String  title, String  subtitle, Long price, Long discount, String brand, Packing packing, String unit, String weight, String origin, String expiration, String info, String delivery, String seller, String date, String productInfoImg, String detailInfoImg){
         this.bigCategory = bigCategory;
         this.smallCategory = smallCategory;
         this.event = event;
@@ -82,5 +89,7 @@ public class Product {
         this.delivery = delivery;
         this.seller = seller;
         this.date = date;
+        this.productInfoImg = productInfoImg;
+        this.detailInfoImg = detailInfoImg;
     }
 }
