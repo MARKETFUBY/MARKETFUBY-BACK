@@ -215,7 +215,7 @@ public class ProductService {
 	}
 
 	public ProductDetailDto getProductDetailDto(Product product, Long memberId){
-		List<ProductReviewImageDto> reviewImages = findReviewImagesByProduct(product);
+		List<String> reviewImages = findReviewImagesByProduct(product);
 		List<ProductReviewDto> reviews = findReviewsByProduct(product, memberId);
 		Integer reviewCount = reviews.size();
 		List<ProductInquiryDto> inquiries = findInquiriesByProduct(product);
@@ -223,19 +223,18 @@ public class ProductService {
 		return productDetailDto;
 	}
 
-	public List<ProductReviewImageDto> findReviewImagesByProduct(Product product) {
+	public List<String> findReviewImagesByProduct(Product product) {
 		List<Review> reviewList = reviewRepository.findAllByProduct(product);
 		List<ReviewImage> reviewImageList = new ArrayList<>();
-		List<ProductReviewImageDto> productReviewImageDtos = new ArrayList<>();
+		List<String> productReviewImageUrls = new ArrayList<>();
 		reviewList.forEach(review -> {
 			List<ReviewImage> reviewImageList1 = reviewImageRepository.findAllByReview(review);
 			reviewImageList.addAll(reviewImageList1);
 		});
 		reviewImageList.forEach(reviewImage -> {
-			ProductReviewImageDto productReviewImageDto = ProductReviewImageDto.from(reviewImage);
-			productReviewImageDtos.add(productReviewImageDto);
+			productReviewImageUrls.add(reviewImage.getUrl());
 		});
-		return productReviewImageDtos;
+		return productReviewImageUrls;
 	}
 
 	public List<ProductReviewDto> findReviewsByProduct(Product product, Long memberId){
