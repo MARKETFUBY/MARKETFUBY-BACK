@@ -218,7 +218,7 @@ public class ProductService {
 
 	public ProductDetailDto getProductDetailDto(Product product, Long memberId){
 		Member member = memberRepository.findByMemberId(memberId);
-		Boolean isLiked = likeRepository.existsByMemberAndProduct(member, product);
+		boolean isLiked = likeRepository.existsByMemberAndProduct(member, product);
 		List<String> reviewImages = findReviewImagesByProduct(product);
 		List<ProductReviewDto> reviews = findReviewsByProduct(product, memberId);
 		Integer reviewCount = reviews.size();
