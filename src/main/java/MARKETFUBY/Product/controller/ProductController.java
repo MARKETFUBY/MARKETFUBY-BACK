@@ -70,7 +70,7 @@ public class ProductController {
 		return productService.getSearchList(sword, sort, filters);
 	}
 
-	@GetMapping("/products/{productId}")
+	@GetMapping("/goods/{productId}")
 	@ResponseStatus(value = HttpStatus.OK)
 	public ProductDetailDto getProductDetail(@PathVariable Long productId, @RequestParam Long memberId){
 	    Product product = productService.findProductById(productId);
