@@ -18,6 +18,7 @@ public class ReviewImage {
     @Column(name = "image_id", updatable = false)
     private Long imageId;
 
+    @Getter
     @ManyToOne
     @JoinColumn(name = "review_id", nullable = false)
     private Review review;
