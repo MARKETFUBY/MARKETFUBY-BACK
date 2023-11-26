@@ -214,11 +214,13 @@ public class ProductService {
 	}
 
 	public ProductDetailDto getProductDetailDto(Product product, Long memberId){
+		Member member = memberRepository.findByMemberId(memberId);
+		boolean isLiked = likeRepository.existsByMemberAndProduct(member,product);
 		List<String> reviewImages = findReviewImagesByProduct(product);
 		List<ProductReviewDto> reviews = findReviewsByProduct(product, memberId);
 		Integer reviewCount = reviews.size();
 		List<ProductInquiryDto> inquiries = findInquiriesByProduct(product);
-		ProductDetailDto productDetailDto = new ProductDetailDto(product, reviewImages, reviewCount, reviews, inquiries);
+		ProductDetailDto productDetailDto = new ProductDetailDto(product, isLiked, reviewImages, reviewCount, reviews, inquiries);
 		return productDetailDto;
 	}
 
