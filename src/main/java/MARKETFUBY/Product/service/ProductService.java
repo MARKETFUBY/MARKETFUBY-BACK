@@ -2,22 +2,25 @@ package MARKETFUBY.Product.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import MARKETFUBY.Inquiry.domain.Inquiry;
 import MARKETFUBY.Inquiry.repository.InquiryRepository;
-import MARKETFUBY.Like.domain.Like;
 import MARKETFUBY.Like.repository.LikeRepository;
 import MARKETFUBY.Member.domain.Member;
 import MARKETFUBY.Member.repository.MemberRepository;
 import MARKETFUBY.Product.dto.*;
 import MARKETFUBY.Review.domain.Review;
+import MARKETFUBY.Review.dto.ReviewResponseDto;
 import MARKETFUBY.ReviewHelp.repository.ReviewHelpRepository;
 import MARKETFUBY.ReviewImage.domain.ReviewImage;
 import MARKETFUBY.ReviewImage.repository.ReviewImageRepository;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
+import javax.swing.text.html.Option;
 
 import MARKETFUBY.BigCategory.domain.BigCategory;
 import MARKETFUBY.BigCategory.dto.CategoryDto;
@@ -214,11 +217,13 @@ public class ProductService {
 	}
 
 	public ProductDetailDto getProductDetailDto(Product product, Long memberId){
+		Member member = memberRepository.findByMemberId(memberId);
+		Boolean isLiked = likeRepository.existsByMemberAndProduct(member, product);
 		List<String> reviewImages = findReviewImagesByProduct(product);
 		List<ProductReviewDto> reviews = findReviewsByProduct(product, memberId);
 		Integer reviewCount = reviews.size();
 		List<ProductInquiryDto> inquiries = findInquiriesByProduct(product);
-		ProductDetailDto productDetailDto = new ProductDetailDto(product, reviewImages, reviewCount, reviews, inquiries);
+		ProductDetailDto productDetailDto = new ProductDetailDto(product, isLiked, reviewImages, reviewCount, reviews, inquiries);
 		return productDetailDto;
 	}
 
@@ -267,27 +272,6 @@ public class ProductService {
 			productInquiryDtos.add(productInquiryDto);
 		});
 		return productInquiryDtos;
-	}
-
-	public LikeProductListResponseDto getLikeProductListDto(Member member){
-		List<LikeProductDto> likeProductDtos = findLikeProductsByMember(member);
-		Integer productNum = likeProductDtos.size();
-		return new LikeProductListResponseDto(productNum, likeProductDtos);
-	}
-
-	public List<LikeProductDto> findLikeProductsByMember(Member member){
-		List<Like> likeList = likeRepository.findAllByMember(member);
-		List<Product> likeProducts = new ArrayList<>();
-		List<LikeProductDto> likeProductDtos = new ArrayList<>();
-		likeList.forEach(like -> {
-			Product product = like.getProduct();
-			likeProducts.add(product);
-		});
-		likeProducts.forEach(product -> {
-			LikeProductDto likeProductDto = LikeProductDto.from(product);
-			likeProductDtos.add(likeProductDto);
-		});
-		return likeProductDtos;
 	}
  
     // 찜하기에서 사용
