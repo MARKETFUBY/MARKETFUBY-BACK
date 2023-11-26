@@ -33,7 +33,7 @@ public class ProductDetailDto {
     private List<ProductInquiryDto> inquiries;
 
     @Builder
-    public ProductDetailDto(Product product, Boolean isLiked, List<String> reviewImages, Integer reviewCount, List<ProductReviewDto> reviews, List<ProductInquiryDto> inquiries){
+    public ProductDetailDto(Product product, List<String> reviewImages, Integer reviewCount, List<ProductReviewDto> reviews, List<ProductInquiryDto> inquiries){
         this.image = product.getImage();
         this.title = product.getTitle();
         this.subtitle = product.getSubtitle();
@@ -48,7 +48,6 @@ public class ProductDetailDto {
         this.info = product.getInfo();
         this.delivery = product.getDelivery();
         this.seller = product.getSeller();
-        this.isLiked = isLiked;
         this.detailInfoImg = product.getDetailInfoImg();
         this.productInfoImg = product.getProductInfoImg();
         this.reviewImages = reviewImages;
