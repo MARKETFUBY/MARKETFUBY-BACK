@@ -225,14 +225,13 @@ public class ProductService {
 
 	public List<String> findReviewImagesByProduct(Product product) {
 		List<Review> reviewList = reviewRepository.findAllByProduct(product);
-		List<ReviewImage> reviewImageList = new ArrayList<>();
 		List<String> productReviewImageUrls = new ArrayList<>();
 		reviewList.forEach(review -> {
-			List<ReviewImage> reviewImageList1 = reviewImageRepository.findAllByReview(review);
-			reviewImageList.addAll(reviewImageList1);
-		});
-		reviewImageList.forEach(reviewImage -> {
-			productReviewImageUrls.add(reviewImage.getUrl());
+			List<ReviewImage> reviewImageList = reviewImageRepository.findAllByReview(review);
+			List<String> reviewImageUrls = reviewImageList.stream()
+					.map(ReviewImage::getUrl)
+					.collect(Collectors.toList());
+			productReviewImageUrls.addAll(reviewImageUrls);
 		});
 		return productReviewImageUrls;
 	}
