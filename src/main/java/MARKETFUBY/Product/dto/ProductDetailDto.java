@@ -24,7 +24,7 @@ public class ProductDetailDto {
     private String info;
     private String delivery;
     private String seller;
-    private boolean isLiked;
+    private Boolean isLiked;
     private String detailInfoImg;
     private String productInfoImg;
     private List<String> reviewImages;
@@ -33,7 +33,7 @@ public class ProductDetailDto {
     private List<ProductInquiryDto> inquiries;
 
     @Builder
-    public ProductDetailDto(Product product, boolean isLiked, List<String> reviewImages, Integer reviewCount, List<ProductReviewDto> reviews, List<ProductInquiryDto> inquiries){
+    public ProductDetailDto(Product product, Boolean isLiked, List<String> reviewImages, Integer reviewCount, List<ProductReviewDto> reviews, List<ProductInquiryDto> inquiries){
         this.image = product.getImage();
         this.title = product.getTitle();
         this.subtitle = product.getSubtitle();
