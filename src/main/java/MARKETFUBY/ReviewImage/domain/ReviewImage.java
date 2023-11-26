@@ -4,7 +4,6 @@ import MARKETFUBY.Member.domain.Member;
 import MARKETFUBY.Product.domain.Product;
 import MARKETFUBY.Review.domain.Review;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -22,7 +21,6 @@ public class ReviewImage {
     @JoinColumn(name = "review_id", nullable = false)
     private Review review;
 
-    @Getter
     @Column
     private String url;
 
