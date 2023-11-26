@@ -13,6 +13,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProductReviewDto {
+    private Long reviewId;
     private String name;
     private String level;
     private String brand;
@@ -24,6 +25,7 @@ public class ProductReviewDto {
 
     public static ProductReviewDto from(Review review, List<String> images, Boolean isReviewHelp){
         return ProductReviewDto.builder()
+                .reviewId(review.getReviewId())
                 .name(review.getWriter().getName())
                 .level(review.getWriter().getLevel())
                 .brand(review.getProduct().getBrand())
