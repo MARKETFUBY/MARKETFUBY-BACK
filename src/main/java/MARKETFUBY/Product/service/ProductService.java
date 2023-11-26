@@ -237,23 +237,17 @@ public class ProductService {
 		List<Review> reviewList = reviewRepository.findAllByProduct(product);
 		List<ProductReviewDto> productReviewDtos = new ArrayList<>();
 		reviewList.forEach(review -> {
-			List<ReviewImage> images = findImagesByReview(review);
 			Member member = memberRepository.findByMemberId(memberId);
 			if (member != null) {
 				Boolean isReviewHelp = reviewHelpRepository.existsByMemberAndReview(member, review);
-				ProductReviewDto productReviewDto = ProductReviewDto.from(review, images, isReviewHelp);
+				ProductReviewDto productReviewDto = ProductReviewDto.from(review, isReviewHelp);
 				productReviewDtos.add(productReviewDto);
 			} else {
-				ProductReviewDto productReviewDto = ProductReviewDto.from(review, images, false);
+				ProductReviewDto productReviewDto = ProductReviewDto.from(review, false);
 				productReviewDtos.add(productReviewDto);
 			}
 		});
 		return productReviewDtos;
-	}
-
-	public List<ReviewImage> findImagesByReview(Review review){
-		List<ReviewImage> imageList = reviewImageRepository.findAllByReview(review);
-		return imageList;
 	}
 
 	public List<ProductInquiryDto> findInquiriesByProduct(Product product){
