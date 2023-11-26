@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import MARKETFUBY.Inquiry.domain.Inquiry;
 import MARKETFUBY.Inquiry.repository.InquiryRepository;
-import MARKETFUBY.Like.repository.LikeRepository;
 import MARKETFUBY.Member.domain.Member;
 import MARKETFUBY.Member.repository.MemberRepository;
 import MARKETFUBY.Product.dto.*;
@@ -43,7 +42,6 @@ public class ProductService {
 	private final ReviewHelpRepository reviewHelpRepository;
 	private final MemberRepository memberRepository;
 	private final ReviewImageRepository reviewImageRepository;
-	private final LikeRepository likeRepository;
 
 	public MainDto getMainList(){
 		MainDto mainDto=new MainDto();
@@ -217,13 +215,11 @@ public class ProductService {
 	}
 
 	public ProductDetailDto getProductDetailDto(Product product, Long memberId){
-		Member member = memberRepository.findByMemberId(memberId);
-		Boolean isLiked = likeRepository.existsByMemberAndProduct(member, product);
 		List<String> reviewImages = findReviewImagesByProduct(product);
 		List<ProductReviewDto> reviews = findReviewsByProduct(product, memberId);
 		Integer reviewCount = reviews.size();
 		List<ProductInquiryDto> inquiries = findInquiriesByProduct(product);
-		ProductDetailDto productDetailDto = new ProductDetailDto(product, isLiked, reviewImages, reviewCount, reviews, inquiries);
+		ProductDetailDto productDetailDto = new ProductDetailDto(product, reviewImages, reviewCount, reviews, inquiries);
 		return productDetailDto;
 	}
 

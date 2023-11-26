@@ -3,6 +3,10 @@ package MARKETFUBY.Review.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import MARKETFUBY.Product.dto.HelpReviewDto;
+import MARKETFUBY.Product.dto.HelpReviewListResponseDto;
+import MARKETFUBY.ReviewHelp.domain.ReviewHelp;
+import MARKETFUBY.ReviewHelp.repository.ReviewHelpRepository;
 import org.springframework.stereotype.Service;
 
 import MARKETFUBY.Member.domain.Member;
@@ -29,6 +33,7 @@ public class ReviewService {
 	private final ReviewRepository reviewRepository;
 	private final ReviewImageRepository reviewImageRepository;
 	private final MemberService memberService;
+	private final ReviewHelpRepository reviewHelpRepository;
 
 	public ReviewResponseDto getReviewList(){
 		ReviewResponseDto reviewResponseDto=new ReviewResponseDto();
@@ -83,11 +88,30 @@ public class ReviewService {
 		reviewRepository.save(review);
 	}
 
+	public HelpReviewListResponseDto getHelpReviewListDto(Member member){
+		List<HelpReviewDto> helpReviewDtos = findHelpReviewsByMember(member);
+		Integer helpReviewsNum = helpReviewDtos.size();
+		return new HelpReviewListResponseDto(helpReviewsNum, helpReviewDtos);
+	}
+	public List<HelpReviewDto> findHelpReviewsByMember(Member member){
+		List<ReviewHelp> reviewHelpList = reviewHelpRepository.findAllByMember(member);
+		List<Review> helpReviews = new ArrayList<>();
+		List<HelpReviewDto> helpReviewDtos = new ArrayList<>();
+		reviewHelpList.forEach(reviewHelp -> {
+			Review review = reviewHelp.getReview();
+			helpReviews.add(review);
+		});
+		helpReviews.forEach(review -> {
+			HelpReviewDto helpReviewDto = HelpReviewDto.from(review);
+			helpReviewDtos.add(helpReviewDto);
+		});
+		return helpReviewDtos;
+	}
+
 	// 도움돼요에서 사용
 	@Transactional(readOnly = true)
 	public Review findReviewById(Long reviewId){
 		return reviewRepository.findById(reviewId)
 				.orElseThrow(()->new EntityNotFoundException("해당 리뷰가 존재하지 않습니다."));
 	}
-
 }

@@ -1,13 +1,13 @@
 package MARKETFUBY.Product.controller;
 
+import MARKETFUBY.Member.domain.Member;
+import MARKETFUBY.Member.service.MemberService;
 import MARKETFUBY.Product.domain.Product;
-import MARKETFUBY.Product.dto.ProductDetailDto;
+import MARKETFUBY.Product.dto.*;
+import MARKETFUBY.Review.service.ReviewService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import MARKETFUBY.Product.dto.MainDto;
-import MARKETFUBY.Product.dto.ProductsListDto;
-import MARKETFUBY.Product.dto.SearchDto;
 import MARKETFUBY.Product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 
@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProductController {
 	private final ProductService productService;
+	private final MemberService memberService;
+	private final ReviewService reviewService;
 
 	@GetMapping(value = "/main")
 	@ResponseStatus(value = HttpStatus.OK)
@@ -75,5 +77,21 @@ public class ProductController {
 	public ProductDetailDto getProductDetail(@PathVariable Long productId, @RequestParam Long memberId){
 	    Product product = productService.findProductById(productId);
 	    return productService.getProductDetailDto(product, memberId);
+	}
+
+	@GetMapping("mypage/pick/list")
+	@ResponseStatus(value = HttpStatus.OK)
+	public LikeProductListResponseDto getLikeProductList(@RequestParam Long memberId){
+		Member member = memberService.findMemberById(memberId);
+		LikeProductListResponseDto likeProductListDto = productService.getLikeProductListDto(member);
+		return likeProductListDto;
+	}
+
+	@GetMapping("mypage/reviewhelp/list")
+	@ResponseStatus(value = HttpStatus.OK)
+	public HelpReviewListResponseDto getHelpReviewList(@RequestParam Long memberId){
+		Member member = memberService.findMemberById(memberId);
+		HelpReviewListResponseDto helpReviewListDto = reviewService.getHelpReviewListDto(member);
+		return helpReviewListDto;
 	}
 }
