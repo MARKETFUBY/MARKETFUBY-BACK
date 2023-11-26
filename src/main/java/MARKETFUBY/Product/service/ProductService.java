@@ -13,8 +13,6 @@ import MARKETFUBY.Product.dto.*;
 import MARKETFUBY.Review.domain.Review;
 import MARKETFUBY.Review.dto.ReviewResponseDto;
 import MARKETFUBY.ReviewHelp.repository.ReviewHelpRepository;
-import MARKETFUBY.ReviewImage.domain.ReviewImage;
-import MARKETFUBY.ReviewImage.repository.ReviewImageRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +39,6 @@ public class ProductService {
 	private final InquiryRepository inquiryRepository;
 	private final ReviewHelpRepository reviewHelpRepository;
 	private final MemberRepository memberRepository;
-	private final ReviewImageRepository reviewImageRepository;
 
 	public MainDto getMainList(){
 		MainDto mainDto=new MainDto();
@@ -215,22 +212,11 @@ public class ProductService {
 	}
 
 	public ProductDetailDto getProductDetailDto(Product product, Long memberId){
-		List<ProductReviewImageDto> reviewImages = findReviewImagesByProduct(product);
 		List<ProductReviewDto> reviews = findReviewsByProduct(product, memberId);
 		Integer reviewCount = reviews.size();
 		List<ProductInquiryDto> inquiries = findInquiriesByProduct(product);
-		ProductDetailDto productDetailDto = new ProductDetailDto(product, reviewImages, reviewCount, reviews, inquiries);
+		ProductDetailDto productDetailDto = new ProductDetailDto(product, reviewCount, reviews, inquiries);
 		return productDetailDto;
-	}
-
-	public List<ProductReviewImageDto> findReviewImagesByProduct(Product product) {
-		List<ReviewImage> reviewImageList = reviewImageRepository.findAllByProduct(product);
-		List<ProductReviewImageDto> productReviewImageDtos = new ArrayList<>();
-		reviewImageList.forEach(reviewImage -> {
-			ProductReviewImageDto productReviewImageDto = ProductReviewImageDto.from(reviewImage);
-			productReviewImageDtos.add(productReviewImageDto);
-		});
-		return productReviewImageDtos;
 	}
 
 	public List<ProductReviewDto> findReviewsByProduct(Product product, Long memberId){
